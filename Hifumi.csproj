@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RuntimeIdentifiers>win10-x64;ubuntu.16.10-x64</RuntimeIdentifiers>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Colorful.Console" Version="1.2.6" />
+    <PackageReference Include="Discord.Net" Version="2.0.0-beta2-00933" />
+    <PackageReference Include="Discord.Net.Providers.WS4Net" Version="2.0.0-beta2-00933" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="2.8.0-beta4" />
+    <PackageReference Include="RavenDB.Client" Version="4.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\H-Game\HGame.csproj" />
+  </ItemGroup>
+
+</Project>

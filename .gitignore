@@ -1,0 +1,12 @@
+# Build folders
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio Code cache folder
+.vscode/
+
+# Hifumi stuff
+DatabaseConfig.json
+log.txt
+
+[Rr]esources/
