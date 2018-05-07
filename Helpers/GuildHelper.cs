@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using Hifumi.Addons;
+using static Hifumi.Addons.Embeds;
 using Hifumi.Handlers;
 using Hifumi.Models;
 using System;
@@ -54,8 +55,15 @@ namespace Hifumi.Helpers
             reason = reason ?? $"*Responsible moderator, please type `{context.Config.Prefix}reason {context.Server.Mod.Cases.Count + 1} <reason>`*";
             var modChannel = await context.Guild.GetTextChannelAsync(context.Server.Mod.TextChannel);
             if (modChannel == null) return;
-            var message = await modChannel.SendMessageAsync($"**{caseType}** | Case {context.Server.Mod.Cases.Count + 1}\n**User:** {user} ({user.Id})\n**Reason:** {reason}\n" +
-                $"**Responsible Moderator:** {context.User}");
+            var embed = GetEmbed(Paint.Aqua)
+                .WithAuthor($"Case #{context.Server.Mod.Cases.Count + 1} | {caseType} | {user.Username}#{user.Discriminator}", user.GetAvatarUrl())
+                .AddField("User", user.Mention, true)
+                .AddField("Moderator", context.User.Mention, true)
+                .AddField("Reason", reason)
+                .WithFooter($"ID: {user.Id}")
+                .WithCurrentTimestamp()
+                .Build();
+            var message = await modChannel.SendMessageAsync(string.Empty, embed: embed);
             context.Server.Mod.Cases.Add(new CaseWrapper
             {
                 Reason = reason,
@@ -65,6 +73,7 @@ namespace Hifumi.Helpers
                 ModId = context.User.Id,
                 CaseNumber = context.Server.Mod.Cases.Count + 1
             });
+            context.GuildHandler.Save(context.Server);
         }
 
         public Task Purge(IEnumerable<IUserMessage> messages, ITextChannel channel, int amount)

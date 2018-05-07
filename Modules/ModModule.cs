@@ -86,7 +86,7 @@ namespace Hifumi.Modules
         }
 
         [Command("mute"), Summary("Mutes a user."), RequireBotPermission(GuildPermission.ManageRoles)]
-        public async Task MuteAsync(IGuildUser user) // TODO: clean up
+        public async Task MuteAsync(IGuildUser user, string reason = null) // TODO: clean up
         {
             if (user == await Context.Guild.GetCurrentUserAsync()) return;
             if (user.RoleIds.Contains(Context.Server.Mod.MuteRole))
@@ -94,12 +94,21 @@ namespace Hifumi.Modules
                 await ReplyAsync($"{user} is already muted.");
                 return;
             }
+            if (Context.Guild.GetRole(Context.Server.Mod.MuteRole) != null)
+            {
+                await user.AddRoleAsync(Context.Guild.GetRole(Context.Server.Mod.MuteRole));
+                await Context.GuildHelper.LogAsync(Context, user, CaseType.Mute, reason);
+                Context.Server.Mod.MutedUsers.Add(user.Id);
+                await ReplyAsync($"{user} has been muted.", document: DocumentType.Server);
+                return;
+            }
             if (Context.Guild.Roles.Contains(Context.Guild.Roles.FirstOrDefault(x => x.Name == "Muted")))
             {
                 Context.Server.Mod.MuteRole = Context.Guild.Roles.FirstOrDefault(x => x.Name == "Muted").Id;
                 await user.AddRoleAsync(Context.Guild.Roles.FirstOrDefault(x => x.Name == "Muted"));
-                await ReplyAsync($"{user} has been muted.", document: DocumentType.Server);
+                await Context.GuildHelper.LogAsync(Context, user, CaseType.Mute, reason);
                 Context.Server.Mod.MutedUsers.Add(user.Id);
+                await ReplyAsync($"{user} has been muted.", document: DocumentType.Server);
                 return;
             }
             OverwritePermissions permissions = new OverwritePermissions(addReactions: PermValue.Deny, sendMessages: PermValue.Deny, attachFiles: PermValue.Deny);
@@ -111,6 +120,8 @@ namespace Hifumi.Modules
                         await channel.AddPermissionOverwriteAsync(role, permissions).ConfigureAwait(false);
                 Context.Server.Mod.MuteRole = role.Id;
                 await user.AddRoleAsync(role);
+                await Context.GuildHelper.LogAsync(Context, user, CaseType.Mute, reason);
+                Context.Server.Mod.MutedUsers.Add(user.Id);
                 await ReplyAsync($"{user} has been muted.", document: DocumentType.Server);
                 return;
             }
@@ -143,11 +154,20 @@ namespace Hifumi.Modules
             modCase.Reason = reason;
             var channel = await Context.Guild.GetTextChannelAsync(Context.Server.Mod.TextChannel);
             if (await channel.GetMessageAsync(modCase.MessageId) is IUserMessage message)
-                await message.ModifyAsync(x => // TODO: embeded message
-                {
-                    x.Content = $"**{modCase.CaseType}** | Case {modCase.CaseNumber}\n**User:** {StringHelper.CheckUser(Context.Client, modCase.UserId)} ({modCase.UserId})\n" +
-                        $"**Reason:** {reason}\n**Responsible Moderator:** {StringHelper.CheckUser(Context.Client, modCase.ModId)}";
-                });
+            {
+                var oldEmbed = message.Embeds.FirstOrDefault();
+                var user = oldEmbed.Fields.FirstOrDefault(x => x.Name == "User").Value;
+                var mod = oldEmbed.Fields.FirstOrDefault(x => x.Name == "Moderator").Value;
+                var newEmbed = Embeds.GetEmbed(Embeds.Paint.Aqua)
+                    .WithAuthor(oldEmbed.Author.Value.ToString())
+                    .AddField("User", user, true)
+                    .AddField("Moderator", mod, true)
+                    .AddField("Reason", reason)
+                    .WithFooter(oldEmbed.Footer.Value.ToString())
+                    .WithTimestamp(oldEmbed.Timestamp.Value)
+                    .Build();
+                await message.ModifyAsync(x => x.Embed = newEmbed);
+            }
             await ReplyAsync($"Case #{caseNum} has been updated.", document: DocumentType.Server);
         }
 
@@ -157,9 +177,11 @@ namespace Hifumi.Modules
             if (user.IsBot) return Task.CompletedTask;
             var profile = Context.GuildHelper.GetProfile(Context.Guild.Id, user.Id);
             profile.Warnings = 0;
-            Context.GuildHelper.SaveProfile(Context.Guild.DefaultChannelId, user.Id, profile);
+            Context.GuildHelper.SaveProfile(Context.Guild.Id, user.Id, profile);
             return ReplyAsync($"{user.Username}'s warnings have been reset.");
         }
+
+        // TODO: unban
 
         [Command("unmute"), Summary("Unmutes a user."), RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task UnmuteAsync(SocketGuildUser user)
@@ -172,6 +194,7 @@ namespace Hifumi.Modules
                 return;
             }
             await user.RemoveRoleAsync(role);
+            await Context.GuildHelper.LogAsync(Context, user, CaseType.UnMute, "UnMuted");
             Context.Server.Mod.MutedUsers.Remove(user.Id);
             await ReplyAsync($"{user} has been unmuted.");
         }
