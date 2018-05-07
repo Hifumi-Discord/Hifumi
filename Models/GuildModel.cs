@@ -15,7 +15,7 @@ namespace Hifumi.Models
         public RedditWrapper Reddit { get; set; } = new RedditWrapper();
         public List<TagWrapper> Tags { get; set; } = new List<TagWrapper>();
         public StarboardWrapper Starboard { get; set; } = new StarboardWrapper();
-        public Dictionary<ulong, string> AFK { get; set; } = new Dictionary<ulong, string>();
+        public Dictionary<ulong, Discord.Embed> AFK { get; set; } = new Dictionary<ulong, Discord.Embed>();
         public ulong JoinChannel { get; set; }
         public ulong LeaveChannel { get; set; }
         public List<MessageWrapper> DeletedMessages { get; set; } = new List<MessageWrapper>();

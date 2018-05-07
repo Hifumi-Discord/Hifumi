@@ -1,0 +1,17 @@
+./Hifumi/
+    |
+    |--/resources/
+    |   |
+    |   |--/wows/
+    |   |   |
+    |   |   |--base.jpg
+    |   |   |--user.jpg
+    |   |
+    |   |--/steam/
+    |   |   |
+    |   |   |--base.jpg
+    |   |   |--user.jpg
+    |
+    |--/cache/
+    |   |
+    |   |--[user id].gif

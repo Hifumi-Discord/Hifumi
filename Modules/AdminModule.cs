@@ -8,6 +8,7 @@ using Hifumi.Enums;
 using Hifumi.Helpers;
 using Hifumi.Models;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -76,8 +77,7 @@ namespace Hifumi.Modules
                     Context.Server.JoinMessages.Add(message);
                     return ReplyAsync("Join message has been added.", document: DocumentType.Server);
                 case AdminCollectionAction.Remove:
-                    // TODO: remove menu
-                    break;
+                    return RemoveMenu(Context.Server.JoinMessages, "join message");
             }
             return Task.CompletedTask;
         }
@@ -104,8 +104,7 @@ namespace Hifumi.Modules
                     Context.Server.LeaveMessages.Add(message);
                     return ReplyAsync("Leave message has been added.", document: DocumentType.Server);
                 case AdminCollectionAction.Remove:
-                    // TODO: remove menu
-                    break;
+                    return RemoveMenu(Context.Server.LeaveMessages, "leave message");
             }
             return Task.CompletedTask;
         }
@@ -379,6 +378,40 @@ namespace Hifumi.Modules
                     break;
             }
             return ReplyAsync($"{toggle} has been {state}.", document: DocumentType.Server);
+        }
+
+        private async Task RemoveMenu(List<string> list, string collection)
+        {
+            if (!list.Any())
+            {
+                await ReplyAsync($"{Context.Guild} has no {collection}s");
+                return;
+            }
+            string menu = $"Please choose a {collection} to remove:\n```css\n";
+            for (int i = 1; i <= list.Count; i++)
+                menu += $"[{i}] {list[i - 1]}\n";
+            menu += "```";
+
+            var msg = await ReplyAsync(menu);
+            var choice = await ResponseWaitAsync(timeout: TimeSpan.FromSeconds(15));
+            await msg.DeleteAsync();
+            if (choice == null)
+            {
+                await ReplyAsync($"**{Context.User.Username},** the command window has closed due to inactivity.");
+                return;
+            }
+            int.TryParse(choice.Content, out int index);
+            if (!(index > 0 && index <= list.Count))
+            {
+                await ReplyAsync($"Invalid response.");
+                return;
+            }
+            index--;
+            if (collection.Equals("join message"))
+                Context.Server.JoinMessages.RemoveAt(index);
+            else
+                Context.Server.LeaveMessages.RemoveAt(index);
+            await ReplyAsync("Message deleted!", document: DocumentType.Server);
         }
     }
 }

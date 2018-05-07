@@ -23,8 +23,19 @@ namespace Hifumi.Addons.Preconditions
             if (passed >= cool) return Task.FromResult(PreconditionResult.FromSuccess());
 
             var wait = cool - passed;
-            // TODO: personality and don't send minutes if there are none
-            return Task.FromResult(PreconditionResult.FromError($"Too fast!  {GetEmote(EmoteType.Worried)} Please wait {wait.Minutes} minute(s) and {wait.Seconds} second(s)."));
+            string min = string.Empty;
+            string sec = string.Empty;
+            if (wait.Minutes != 0)
+            {
+                if (wait.Minutes > 1) min = $"{wait.Minutes} minutes,";
+                else min = $"{wait.Minutes} minute,";
+            }
+            if (wait.Seconds != 0)
+            {
+                if (wait.Seconds > 1) sec = $"{wait.Seconds} seconds";
+                else sec = $"{wait.Seconds} second";
+            }
+            return Task.FromResult(PreconditionResult.FromError($"Too fast!  {GetEmote(EmoteType.Worried)} Please wait {min} {sec}."));
         }
     }
 }

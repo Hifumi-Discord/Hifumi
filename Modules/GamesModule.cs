@@ -83,8 +83,7 @@ namespace Hifumi.Modules
             {
                 case 1:
                     string id = user[0].UserId;
-                    var embed = GetEmbed(Paint.Aqua)
-                        .WithColor(237, 116, 170) // TODO: need more colors to avoid this override
+                    var embed = GetEmbed(Paint.Pink)
                         .WithAuthor($"{user[0].UserName}'s osu! Signature", url: $"https://osu.ppy.sh/users/{user[0].UserId}")
                         .WithImageUrl($"https://lemmmy.pw/osusig/sig.php?colour=hexbb1177&uname={user[0].UserName}&mode={mode}&pp=1&removeavmargin&flagstroke&onlineindicator=undefined&xpbar&xpbarhex")
                         .Build();
