@@ -46,11 +46,30 @@ namespace Hifumi.Modules
             await ReplyAsync(string.Empty, embed);
         }
 
-        [Command("neko"), Summary("The best command out there.")]
-        public async Task NekoAsync()
+        [Command("neko"), Summary("The best command out there. Option: --[gif/holo/kemono/kitsune]")]
+        public async Task NekoAsync(string option = null)
         {
+            string url = "https://nekos.life/api/v2/img/";
+            switch (option)
+            {
+                case "--gif":
+                    url += "ngif";
+                    break;
+                case "--kemono":
+                    url += "kemonomimi";
+                    break;
+                case "--holo":
+                    url += "holo";
+                    break;
+                case "--kitsune":
+                    url += "fox_girl";
+                    break;
+                default:
+                    url += "neko";
+                    break;
+            }
             var embed = GetEmbed(Paint.Aqua)
-                .WithImageUrl(JToken.Parse(await Context.HttpClient.GetStringAsync("https://nekos.life/api/v2/img/neko").ConfigureAwait(false))["url"].ToString())
+                .WithImageUrl(JToken.Parse(await Context.HttpClient.GetStringAsync(url).ConfigureAwait(false))["url"].ToString())
                 .WithFooter("Powered by: nekos.life")
                 .Build();
             await ReplyAsync(string.Empty, embed);

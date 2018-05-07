@@ -8,7 +8,7 @@ using static Hifumi.Addons.Embeds;
 
 namespace Hifumi.Modules
 {
-    [Name("Assistance Commands"), RequireBotPermission(ChannelPermission.SendMessages)]
+    [Name("Help Commands"), RequireBotPermission(ChannelPermission.SendMessages)]
     public class HelpModule : Base
     {
         IServiceProvider Provider { get; }

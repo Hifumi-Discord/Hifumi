@@ -19,7 +19,7 @@ namespace Hifumi.Addons.Preconditions
             var profile = context.GuildHelper.GetProfile(context.Guild.Id, context.User.Id);
             if (!profile.Commands.ContainsKey(command.Name)) return Task.FromResult(PreconditionResult.FromSuccess());
 
-            var passed = DateTime.UtcNow - profile.Commands[command.Name];
+            var passed = context.MethodHelper.EasternTime - profile.Commands[command.Name];
             if (passed >= cool) return Task.FromResult(PreconditionResult.FromSuccess());
 
             var wait = cool - passed;

@@ -13,8 +13,6 @@ namespace Hifumi.Modules
     [Name("Image Commands"), RequireBotPermission(ChannelPermission.SendMessages)]
     public class ImageModule : Base
     {
-        // Endpoints
-        // /api/v2/img/<'tickle', 'feed', 'kiss', 'hug'>
         [Command("cuddle")]
         public async Task CuddleAsync(SocketGuildUser user = null)
         {
@@ -22,7 +20,7 @@ namespace Hifumi.Modules
             if (user == null || user == Context.User as SocketGuildUser)
                 description = $"Would you like to snuggle together, {Context.User.Mention}? {GetEmote(EmoteType.Love)}";
             else
-                description = $"{Context.User.Mention} cuddles with {user.Mention}";
+                description = $"{Context.User.Mention} cuddles with {user.Mention} {GetEmote(EmoteType.Love)}";
 
             var embed = GetEmbed(Paint.Aqua)
                 .WithDescription(description)
@@ -32,18 +30,52 @@ namespace Hifumi.Modules
             await ReplyAsync(string.Empty, embed);
         }
 
-        [Command("slap")]
-        public async Task SlapAsync(SocketGuildUser user = null)
+        [Command("feed")]
+        public async Task FeedAsync(SocketGuildUser user = null)
         {
             string description;
             if (user == null || user == Context.User as SocketGuildUser)
-                description = $"Why must you hit yourself, {Context.User.Mention}?";
+                description = $"Little hungry there, {Context.User.Mention}? {GetEmote(EmoteType.Love)}";
             else
-                description = $"{Context.User.Mention} is hitting {user.Mention}";
+                description = $"{Context.User.Mention} gives food to {user.Mention} {GetEmote(EmoteType.Love)}";
 
             var embed = GetEmbed(Paint.Aqua)
                 .WithDescription(description)
-                .WithImageUrl(JToken.Parse(await Context.HttpClient.GetStringAsync("https://nekos.life/api/v2/img/slap").ConfigureAwait(false))["url"].ToString())
+                .WithImageUrl(JToken.Parse(await Context.HttpClient.GetStringAsync("https://nekos.life/api/v2/img/feed").ConfigureAwait(false))["url"].ToString())
+                .WithFooter("Powered by: nekos.life")
+                .Build();
+            await ReplyAsync(string.Empty, embed);
+        }
+
+        [Command("hug")]
+        public async Task HugAsync(SocketGuildUser user = null)
+        {
+            string description;
+            if (user == null || user == Context.User as SocketGuildUser)
+                description = $"We all need hugs {Context.User.Mention} {GetEmote(EmoteType.Love)}";
+            else
+                description = $"{Context.User.Mention} hugs {user.Mention} {GetEmote(EmoteType.Love)}";
+
+            var embed = GetEmbed(Paint.Aqua)
+                .WithDescription(description)
+                .WithImageUrl(JToken.Parse(await Context.HttpClient.GetStringAsync("https://nekos.life/api/v2/img/hug").ConfigureAwait(false))["url"].ToString())
+                .WithFooter("Powered by: nekos.life")
+                .Build();
+            await ReplyAsync(string.Empty, embed);
+        }
+
+        [Command("kiss")]
+        public async Task KissAsync(SocketGuildUser user = null)
+        {
+            string description;
+            if (user == null || user == Context.User as SocketGuildUser)
+                description = $"I-it's not like I wanted to kiss you, {Context.User.Mention} ...";
+            else
+                description = $"{Context.User.Mention} kisses {user.Mention} {GetEmote(EmoteType.Love)}";
+
+            var embed = GetEmbed(Paint.Aqua)
+                .WithDescription(description)
+                .WithImageUrl(JToken.Parse(await Context.HttpClient.GetStringAsync("https://nekos.life/api/v2/img/kiss").ConfigureAwait(false))["url"].ToString())
                 .WithFooter("Powered by: nekos.life")
                 .Build();
             await ReplyAsync(string.Empty, embed);
@@ -56,7 +88,7 @@ namespace Hifumi.Modules
             if (user == null || user == Context.User as SocketGuildUser)
                 description = $"Giving {Context.User.Mention} a pat on the head {GetEmote(EmoteType.Love)}";
             else
-                description = $"{Context.User.Mention} pats {user.Mention}";
+                description = $"{Context.User.Mention} pats {user.Mention} {GetEmote(EmoteType.Love)}";
 
             var embed = GetEmbed(Paint.Aqua)
                 .WithDescription(description)
@@ -78,6 +110,40 @@ namespace Hifumi.Modules
             var embed = GetEmbed(Paint.Aqua)
                 .WithDescription(description)
                 .WithImageUrl(JToken.Parse(await Context.HttpClient.GetStringAsync("https://nekos.life/api/v2/img/poke").ConfigureAwait(false))["url"].ToString())
+                .WithFooter("Powered by: nekos.life")
+                .Build();
+            await ReplyAsync(string.Empty, embed);
+        }
+
+        [Command("slap")]
+        public async Task SlapAsync(SocketGuildUser user = null)
+        {
+            string description;
+            if (user == null || user == Context.User as SocketGuildUser)
+                description = $"Why must you hit yourself, {Context.User.Mention}? {GetEmote(EmoteType.Worried)}";
+            else
+                description = $"{Context.User.Mention} is hitting {user.Mention} {GetEmote(EmoteType.Worried)}";
+
+            var embed = GetEmbed(Paint.Aqua)
+                .WithDescription(description)
+                .WithImageUrl(JToken.Parse(await Context.HttpClient.GetStringAsync("https://nekos.life/api/v2/img/slap").ConfigureAwait(false))["url"].ToString())
+                .WithFooter("Powered by: nekos.life")
+                .Build();
+            await ReplyAsync(string.Empty, embed);
+        }
+
+        [Command("tickle")]
+        public async Task TickleAsync(SocketGuildUser user = null)
+        {
+            string description;
+            if (user == null || user == Context.User as SocketGuildUser)
+                description = $"Are you ticklish, {Context.User.Mention}? {GetEmote(EmoteType.Happy)}";
+            else
+                description = $"{Context.User.Mention} tickles {user.Mention} {GetEmote(EmoteType.Happy)}";
+
+            var embed = GetEmbed(Paint.Aqua)
+                .WithDescription(description)
+                .WithImageUrl(JToken.Parse(await Context.HttpClient.GetStringAsync("https://nekos.life/api/v2/img/tickle").ConfigureAwait(false))["url"].ToString())
                 .WithFooter("Powered by: nekos.life")
                 .Build();
             await ReplyAsync(string.Empty, embed);

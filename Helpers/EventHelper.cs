@@ -84,8 +84,8 @@ namespace Hifumi.Helpers
             if (!search.IsSuccess) return;
             var command = search.Commands.FirstOrDefault().Command;
             var profile = GuildHelper.GetProfile(context.Guild.Id, context.User.Id);
-            if (!profile.Commands.ContainsKey(command.Name)) profile.Commands.Add(command.Name, DateTime.UtcNow);
-            profile.Commands[command.Name] = DateTime.UtcNow;
+            if (!profile.Commands.ContainsKey(command.Name)) profile.Commands.Add(command.Name, MethodHelper.EasternTime);
+            profile.Commands[command.Name] = MethodHelper.EasternTime;
             GuildHelper.SaveProfile(context.Guild.Id, context.User.Id, profile);
         }
 

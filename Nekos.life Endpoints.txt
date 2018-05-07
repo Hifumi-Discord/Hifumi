@@ -1,0 +1,64 @@
+/api/v2/img/<'feet', 'yuri', 'trap', 'futanari', 'hololewd', 'lewdkemo', 'solog', 'feetg', 'cum', 'erokemo', 'les', 'lewdk',
+    'ngif', 'meow', 'tickle', 'lewd', 'feed', 'eroyuri', 'eron', 'cum_jpg', 'bj', 'nsfw_neko_gif', 'solo', 'kemonomimi', 
+    'nsfw_avatar', 'poke', 'anal', 'slap', 'hentai', 'avatar', 'erofeet', 'holo', 'keta', 'blowjob', 'pussy', 'tits', 
+    'holoero', 'lizard', 'pussy_jpg', 'pwankg', 'classic', 'kuni', 'pat', '8ball', 'kiss', 'femdom', 'neko', 'cuddle', 'erok', 
+    'fox_girl', 'boobs', 'Random_hentai_gif', 'smallboobs', 'hug', 'ero'>"
+
+--SFW endpoints--
+neko    default
+ngif    --gif
+meow
+tickle  [tickle command]
+feed    [feed command]
+kemonomimi  --kemono
+poke    [poke command]
+slap    [slap command]
+avatar
+holo    --holo
+lizard
+pat     [pat command]
+8ball
+kiss    [kiss command]
+cuddle  [cuddle command]
+fox_girl    --kitsune
+hug     [hug command]
+
+--NSFW enpoints--
+feet
+yuri
+trap
+futanari
+hololewd
+lewdkemo
+solog
+feetg
+cum
+erokemo
+les
+lewdk
+lewd
+eroyuri
+eron
+cum_jpg
+bj
+nsfw_neko_gif
+solo
+nsfw_avatar
+anal
+hentai
+erofeet
+keta
+blowjob
+pussy
+tits
+holoero
+pussy_jpg
+pwankg
+classic
+kuni
+femdom
+erok
+boobs
+Random_hentai_gif
+smallboobs
+ero
