@@ -76,8 +76,13 @@ namespace Hifumi.Modules
         }
 
         [Command("owo")]
-        public async Task OwoAsync([Remainder] string message)
+        public async Task OwoAsync([Remainder] string message = null)
         {
+            if (message == null)
+            {
+                await Context.Channel.SendFileAsync("./resources/owo.png");
+                return;
+            }
             var data = JToken.Parse(await Context.HttpClient.GetStringAsync($"https://nekos.life/api/v2/owoify?text={Uri.EscapeDataString(message)}").ConfigureAwait(false))["owo"];
             await ReplyAsync(data.ToString());
         }

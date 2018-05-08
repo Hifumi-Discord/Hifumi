@@ -48,15 +48,27 @@ namespace Hifumi.Helpers
         }
 
         internal Task XPHandler(SocketMessage message, GuildModel config)
-        { // TODO: modify
+        {
             var user = message.Author as IGuildUser;
             var blacklistedRoles = new List<ulong>(config.ChatXP.XPBlockedRoles.Select(x => x));
             var hasRole = (user as IGuildUser).RoleIds.Intersect(blacklistedRoles).Any();
             if (hasRole || !config.ChatXP.IsEnabled) return Task.CompletedTask;
             var profile = GuildHelper.GetProfile(user.GuildId, user.Id);
-            int old = profile.ChatXP;
-            profile.ChatXP += Random.Next(message.Content.Length);
-            var newer = profile.ChatXP;
+            int old = 0, newer = 0;
+            if (!profile.LastMessage.HasValue)
+            {
+                profile.LastMessage = MethodHelper.EasternTime;
+                profile.ChatXP += Random.Next(10, 21);
+            }
+            else
+            {
+                if (MethodHelper.EasternTime - profile.LastMessage >= TimeSpan.FromMinutes(2))
+                {
+                    old = profile.ChatXP;
+                    profile.ChatXP += Random.Next(10, 21);
+                    newer = profile.ChatXP;
+                }
+            }
             GuildHelper.SaveProfile(Convert.ToUInt64(config.Id), user.Id, profile);
             return LevelUpHandlerAsync(message, config, old, newer);
         }
