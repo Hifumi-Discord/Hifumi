@@ -2,6 +2,12 @@
     |
     |--/resources/
     |   |
+    |   |--/grave/
+    |   |   |
+    |   |   |--base.png
+    |   |   |--user.png
+    |   |   |--grave.ttf
+    |   |
     |   |--/wows/
     |   |   |
     |   |   |--base.jpg
@@ -14,4 +20,4 @@
     |
     |--/cache/
     |   |
-    |   |--[user id].gif
+    |   |--Hifumi-[guid].png

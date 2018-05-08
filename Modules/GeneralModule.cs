@@ -19,7 +19,7 @@ namespace Hifumi.Modules
     [Name("General Commands"), RequireBotPermission(ChannelPermission.SendMessages)]
     public class GeneralModule : Base
     {
-        [Command("Ping"), Summary("Check network latency.")]
+        [Command("ping"), Summary("Check network latency.")]
         public async Task PingAsync()
         {
             var embed = GetEmbed(Paint.Aqua)

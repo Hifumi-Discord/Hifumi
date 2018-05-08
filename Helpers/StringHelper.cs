@@ -141,15 +141,13 @@ namespace Hifumi.Helpers
             return result;
         }
 
-        public static async Task<string> DownloadUserImageAsync(HttpClient httpClient, IUser user)
+        public static async Task<string> DownloadImageAsync(HttpClient httpClient, string url)
         {
-            if (!File.Exists($"{CacheFolder}/{user.Id}.gif"))
-            {
-                var image = await httpClient.GetByteArrayAsync(user.GetAvatarUrl(ImageFormat.Gif, 2048)).ConfigureAwait(false);
-                using (var userImage = File.Create($"{CacheFolder}/{user.Id}.gif"))
-                    await userImage.WriteAsync(image, 0, image.Length).ConfigureAwait(false);
-            }
-            return $"{CacheFolder}/{user.Id}.gif";
+            var image = await httpClient.GetByteArrayAsync(url).ConfigureAwait(false);
+            string fileName = $"Hifumi-{Guid.NewGuid().ToString("n").Substring(0, 8)}";
+            using (var userImage = File.Create($"./cache/{fileName}.png"))
+                await userImage.WriteAsync(image, 0, image.Length).ConfigureAwait(false);
+            return $"./cache/{fileName}.png";
         }
     }
 }

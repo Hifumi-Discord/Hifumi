@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <RuntimeIdentifiers>win10-x64;ubuntu.16.10-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
@@ -12,6 +12,9 @@
     <PackageReference Include="Discord.Net.Providers.WS4Net" Version="2.0.0-beta2-00933" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="2.8.0-beta4" />
     <PackageReference Include="RavenDB.Client" Version="4.0.3" />
+    <PackageReference Include="SixLabors.Fonts" Version="1.0.0-beta0003" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0002" />
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0002" />
   </ItemGroup>
 
   <ItemGroup>
