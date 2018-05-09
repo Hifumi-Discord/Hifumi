@@ -98,4 +98,10 @@ namespace Hifumi.Models
         public ulong MessageId { get; set; }
         public DateTime DateTime { get; set; }
     }
+
+    public enum Locale
+    {
+        En,
+        Ja,
+    }
 }

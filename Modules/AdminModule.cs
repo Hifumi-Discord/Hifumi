@@ -278,6 +278,11 @@ namespace Hifumi.Modules
                 case SettingType.LevelUpMessage:
                     Context.Server.ChatXP.LevelMessage = value;
                     break;
+                case SettingType.Locale:
+                    Enum.TryParse(value, true, out Locale l);
+                    if (!Enum.IsDefined(typeof(Locale), l)) return ReplyAsync("Invalid locale");
+                    Context.Server.Locale = l;
+                    break;
             }
             return ReplyAsync($"{setting} has been updated.", document: DocumentType.Server);
         }
@@ -316,6 +321,7 @@ namespace Hifumi.Modules
                     $"+ Blacklisted Users   : {Context.Server.Profiles.Where(x => x.Value.IsBlacklisted).Count()}\n" +
                     $"+ XP-Blocked Roles    : {Context.Server.ChatXP.XPBlockedRoles.Count}```", false)
                 .AddField("Guild Statistics", "```diff\n" +
+                    $"- Locale              : {Context.Server.Locale}\n" +
                     $"- Users Banned        : {Context.Server.Mod.Cases.Where(x => x.CaseType == CaseType.Ban).Count()}\n" +
                     $"- Users Kicked        : {Context.Server.Mod.Cases.Where(x => x.CaseType == CaseType.Kick).Count()}\n" +
                     $"- Total Chat XP       : {Context.Server.Profiles.Sum(x => x.Value.ChatXP)}\n" +

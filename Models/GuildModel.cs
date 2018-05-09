@@ -18,6 +18,7 @@ namespace Hifumi.Models
         public Dictionary<ulong, Discord.Embed> AFK { get; set; } = new Dictionary<ulong, Discord.Embed>();
         public ulong JoinChannel { get; set; }
         public ulong LeaveChannel { get; set; }
+        public Locale Locale { get; set; } = Locale.En;
         public List<MessageWrapper> DeletedMessages { get; set; } = new List<MessageWrapper>();
         public Dictionary<ulong, UserProfile> Profiles { get; set; } = new Dictionary<ulong, UserProfile>();
     }

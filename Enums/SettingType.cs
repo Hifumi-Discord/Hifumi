@@ -11,6 +11,7 @@
         MaxWarnings,
         RedditChannel,
         StarboardChannel,
-        LevelUpMessage
+        LevelUpMessage,
+        Locale
     }
 }

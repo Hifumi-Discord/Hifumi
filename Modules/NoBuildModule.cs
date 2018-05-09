@@ -2,6 +2,7 @@ using Discord;
 using Discord.Commands;
 using Hifumi.Addons;
 using Hifumi.Addons.Preconditions;
+using Hifumi.Translation;
 using System;
 using System.Threading.Tasks;
 
@@ -24,5 +25,8 @@ namespace Hifumi.Modules
 
         [Command("channeltest")]
         public Task ChannelTest() => ReplyAsync($"Default channel is: {Context.GuildHelper.DefaultChannel(Context.Guild.Id).Name}");
+
+        [Command("translation")]
+        public Task TranslationTest(string locale) => ReplyAsync(Translator.GetTranslation("test", locale));
     }
 }
