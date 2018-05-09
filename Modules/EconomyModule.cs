@@ -3,6 +3,8 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Hifumi.Addons;
 using static Hifumi.Addons.Embeds;
+using Hifumi.Personality;
+using static Hifumi.Personality.Emotes;
 using Hifumi.Helpers;
 using System;
 using System.Linq;
@@ -10,39 +12,62 @@ using System.Threading.Tasks;
 
 namespace Hifumi.Modules
 {
-    [Name("Social Commands"), RequireBotPermission(ChannelPermission.SendMessages)]
-    public class SocialModule : Base
+    [Name("Economy Commands"), RequireBotPermission(ChannelPermission.SendMessages)]
+    public class EconomyModule : Base
     {
         [Command("daily"), Summary("Get your daily credits")]
         public Task Daily()
         {
             var profile = Context.GuildHelper.GetProfile(Context.Guild.Id, Context.User.Id);
+            int creditsEarned;
             if (profile.DailyReward.HasValue)
             {
                 var oldTime = profile.DailyReward.Value;
                 var passed = Context.MethodHelper.EasternTime - oldTime;
                 if (passed.TotalHours > 48)
                 {
-                    // TODO: break streak
+                    profile.DailyReward += TimeSpan.FromDays(passed.Days);
+                    profile.DailyStreak = 0;
+                    profile.Credits += creditsEarned = 200;
                 }
                 else if (passed.TotalHours > 24)
                 {
-                    // TODO: get reward, increment streak
+                    profile.DailyReward += TimeSpan.FromDays(1);
+                    profile.DailyStreak++;
+                    profile.Credits += creditsEarned = 200 * profile.DailyStreak;
                 }
                 else
                 {
                     var wait = TimeSpan.FromHours(24).Subtract(passed);
-                    // TODO: wait for reward
+                    string hour = string.Empty;
+                    string min = string.Empty;
+                    string sec = string.Empty;
+                    if (wait.Hours != 0)
+                    {
+                        if (wait.Hours > 1) hour = $"{wait.Hours} hours,";
+                        else hour = $"{wait.Hours} hour,";
+                    }
+                    if (wait.Minutes != 0)
+                    {
+                        if (wait.Minutes > 1) min = $"{wait.Minutes} minutes,";
+                        else min = $"{wait.Minutes} minute,";
+                    }
+                    if (wait.Seconds != 0)
+                    {
+                        if (wait.Seconds > 1) sec = $"{wait.Seconds} seconds";
+                        else sec = $"{wait.Seconds} second";
+                    }
+                    return ReplyAsync($"Hold on {GetEmote(EmoteType.Worried)} Credits refresh in {hour} {min} {sec}.");
                 }
             }
             else
             {
                 profile.DailyReward = Context.MethodHelper.EasternTime;
-                profile.Credits += 200;
+                profile.Credits += creditsEarned = 200;
             }
 
             Context.GuildHelper.SaveProfile(Context.Guild.Id, Context.User.Id, profile);
-            return ReplyAsync("You recieved your daily reward.");
+            return ReplyAsync($"You recieved {creditsEarned} daily credits.");
         }
 
         [Command("rank"), Summary("Shows a user's server's rank.")]

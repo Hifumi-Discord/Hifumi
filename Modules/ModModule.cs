@@ -181,7 +181,22 @@ namespace Hifumi.Modules
             return ReplyAsync($"{user.Username}'s warnings have been reset.");
         }
 
-        // TODO: unban
+        [Command("unban"), Summary("Removes a user's ban."), RequireBotPermission(GuildPermission.BanMembers)]
+        public async Task UnBanAsync(IGuildUser user, [Remainder] string reason = null)
+        {
+            if (user == await Context.Guild.GetCurrentUserAsync()) return;
+            await Context.Guild.RemoveBanAsync(user).ConfigureAwait(false);
+            await Context.GuildHelper.LogAsync(Context, user, CaseType.UnBan, reason).ConfigureAwait(false);
+            await ReplyAsync($"***{user} was unbanned.***", document: DocumentType.Server).ConfigureAwait(false);
+        }
+
+        [Command("unban"), Summary("Removes a user's ban."), RequireBotPermission(GuildPermission.BanMembers)]
+        public async Task UnBanAsync(ulong userId)
+        {
+            if (userId == (await Context.Guild.GetCurrentUserAsync()).Id) return;
+            await Context.Guild.RemoveBanAsync(userId);
+            await ReplyAsync($"*{userId} was unbanned.*");
+        }
 
         [Command("unmute"), Summary("Unmutes a user."), RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task UnmuteAsync(SocketGuildUser user)

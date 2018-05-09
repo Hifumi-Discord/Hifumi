@@ -30,5 +30,14 @@ namespace Hifumi.Helpers
             }
             return "./resources/grave/user.png";
         }
+
+        public static string WowsImage(HGame.Wows.Models.PlayerData player)
+        {
+            using (var background = SixLabors.ImageSharp.Image.Load("./resources/wows/base.png"))
+            {
+                // TODO: image editing
+            }
+            return "./resources/wows/user.png";
+        }
     }
 }

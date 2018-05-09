@@ -335,7 +335,7 @@ namespace Hifumi.Modules
             {
                 case AdminCollectionAction.Add:
                     if (!check.Item1) return ReplyAsync(check.Item2);
-                    // TODO: check if subreddit is valid
+                    if (Context.RedditService.SubredditAsync(subreddit).Result == null) return ReplyAsync($"{subreddit} is an invalid subreddit.");
                     Context.Server.Reddit.Subreddits.Add(subreddit);
                     return ReplyAsync(check.Item2, document: DocumentType.Server);
                 case AdminCollectionAction.Remove:
@@ -374,7 +374,18 @@ namespace Hifumi.Modules
                     state = Context.Server.Mod.LogDeletedMessages ? "enabled" : "disabled";
                     break;
                 case ToggleType.RedditFeed:
-                    // TODO: start and stop reddit
+                    if (Context.Server.Reddit.IsEnabled)
+                    {
+                        Context.Server.Reddit.IsEnabled = false;
+                        Context.RedditService.Stop(Context.Server.Reddit.TextChannel);
+                        state = "disabled";
+                    }
+                    else
+                    {
+                        Context.Server.Reddit.IsEnabled = true;
+                        Context.RedditService.Start(Context.Guild.Id);
+                        state = "enabled";
+                    }
                     break;
             }
             return ReplyAsync($"{toggle} has been {state}.", document: DocumentType.Server);

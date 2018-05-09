@@ -56,6 +56,7 @@ namespace Hifumi
             await provider.GetRequiredService<DatabaseHandler>().DatabaseCheck();
             await provider.GetRequiredService<MainHandler>().InitializeAsync();
             await provider.GetRequiredService<EventsHandler>().InitializeAsync(provider);
+            provider.GetRequiredService<RedditService>().Initialize();
 
             await Task.Delay(-1);
         }
