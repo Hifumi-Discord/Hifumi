@@ -19,6 +19,21 @@ namespace Hifumi.Modules
     [Name("General Commands"), RequireBotPermission(ChannelPermission.SendMessages)]
     public class GeneralModule : Base
     {
+        [Command("afk"), Summary("Set yourself as afk.")]
+        public Task Afk([Remainder] string message = "AFK.")
+        {
+            if (Context.Server.AFK.ContainsKey(Context.User.Id))
+            {
+                Context.Server.AFK.Remove(Context.User.Id);
+                return ReplyAsync("You are no longer afk.", document: DocumentType.Server);
+            }
+            else
+            {
+                Context.Server.AFK.Add(Context.User.Id, message);
+                return ReplyAsync($"You are now AFK. If someone mentions you, the following will be sent: {message}", document: DocumentType.Server);
+            }
+        }
+
         [Command("ping"), Summary("Check network latency.")]
         public async Task PingAsync()
         {

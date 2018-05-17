@@ -85,9 +85,9 @@ namespace Hifumi.Helpers
         internal async Task AFKHandlerAsync(SocketMessage message, GuildModel config)
         {
             if (!message.MentionedUsers.Any(x => config.AFK.ContainsKey(x.Id))) return;
-            Embed reason = null;
+            string reason = null;
             var user = message.MentionedUsers.FirstOrDefault(u => config.AFK.TryGetValue(u.Id, out reason));
-            if (user != null) await message.Channel.SendMessageAsync(string.Empty, embed: reason);
+            if (user != null) await message.Channel.SendMessageAsync($"{user.Username} is afk: {reason}");
         }
 
         internal void RecordCommand(CommandService commandService, IContext context, int argPos)
