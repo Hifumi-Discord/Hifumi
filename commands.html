@@ -1,0 +1,341 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>Commands - Hifumi</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+	<link rel="shortcut icon" href="images/favicon.png">
+</head>
+
+<body>
+	<header id="header">
+		<h1>
+			<a href="./">Hifumi |
+				<span>ひふみ</span>
+			</a>
+		</h1>
+		<a href="#menu">Menu</a>
+	</header>
+
+	<nav id="menu">
+		<ul class="links">
+			<li>
+				<a href="./">Home</a>
+			</li>
+			<li>
+				<a href="commands">Commands</a>
+			</li>
+			<li>
+				<a href="about">About</a>
+			</li>
+		</ul>
+	</nav>
+
+	<div id="main">
+		<section class="wrapper style1">
+			<div class="inner">
+				<header class="align-center">
+					<h2>Hifumi Command Listing</h2>
+					<p>List of commands and standard usage.
+						<br>&LeftAngleBracket; &RightAngleBracket; denotes required parameter, [ ] denotes optional parameter</p>
+					<br>
+					<h3>!!!NOTE!!!</h3>
+					<p>This page reflects the commands of the in-progress rewrite of Hifumi. Some commands may not be accurate or available
+						in the current public version.</p>
+					<a href="#admin" class="button special scrolly">Admin Commands</a>
+					<a href="#fun" class="button special scrolly">Fun Commands</a>
+					<a href="#game" class="button special scrolly">Game Commands</a>
+					<a href="#general" class="button special scrolly">General Commands</a>
+					<a href="#image" class="button special scrolly">Image Commands</a>
+					<a href="#help" class="button special scrolly">Help Commands</a>
+					<a href="#mod" class="button special scrolly">Mod Commands</a>
+					<a href="#nsfw" class="button special scrolly">NSFW Commands</a>
+					<a href="#search" class="button special scrolly">Search Commands</a>
+					<a href="#tag" class="button special scrolly">Tag Commands</a>
+				</header>
+			</div>
+		</section>
+
+		<section class="wrapper">
+			<div class="inner">
+				<h3 class="align-center" id="admin">Administrator Commands</h3>
+				<h4>h!blockxp</h4>
+				<p>Prevents a role from being able to gain chat XP.</p>
+				<p>Usage:
+					<code>h!blockxp add &LeftAngleBracket;role&RightAngleBracket;</code>
+					<code>h!blockxp remove &LeftAngleBracket;role&RightAngleBracket;</code>
+				</p>
+				<br>
+				<h4>h!export</h4>
+				<p>Exports your server's configuration settings as a json file. Note: You must be the guild's owner.</p>
+				<br>
+				<h4>h!joinmessage</h4>
+				<p>Adds or removes a message to or from the server's join message list.</p>
+				<p>Use {user} to mention the user and {guild} to print the server name. (Include the curly braces)</p>
+				<p>Usage:
+					<code>h!joinmessage</code>
+					<code>h!joinmessage add &LeftAngleBracket;message&RightAngleBracket;</code>
+					<code>h!joinmessage remove</code>
+				</p>
+				<br>
+				<h4>h!leavemessage</h4>
+				<p>Adds or removes a message to or from the server's leave message list.</p>
+				<p>Use {user} to print the user's name and {guild} to print the server name. (Include the curly braces)</p>
+				<p>Usage:
+					<code>h!leavemessage</code>
+					<code>h!leavemessage add &LeftAngleBracket;message&RightAngleBracket;</code>
+					<code>h!leavemessage remove</code>
+				</p>
+				<br>
+				<h4>h!levelrole</h4>
+				<p>Adds or removes a XP leveled role. If a level is not supplied, the default is 10.</p>
+				<p>Usage:
+					<code>h!levelrole add &LeftAngleBracket;role&RightAngleBracket; [level]</code>
+					<code>h!levelrole remove &LeftAngleBracket;role&RightAngleBracket;</code>
+				</p>
+				<br>
+				<h4>h!reset</h4>
+				<p>Resets Hifumi's configuration for your server. Note: You must be the guild's owner.</p>
+				<br>
+				<h4>h!selfroles</h4>
+				<p>Adds or removes a role to or from the self assignable role list.</p>
+				<p>Usage:
+					<code>h!selfroles add &LeftAngleBracket;role&RightAngleBracket;</code>
+					<code>h!selfroles remove &LeftAngleBracket;role&RightAngleBracket;</code>
+				</p>
+				<br>
+				<h4>h!setting</h4>
+				<p>Changes a settings value for the server. Blank values for certain settings (such as channels) will reset them and disable
+					the function related to that setting.</p>
+				<p>Usage:
+					<code>h!setting</code>
+					<code>h!setting &LeftAngleBracket;setting&RightAngleBracket; [value]</code>
+				</p>
+				<br>
+				<h4>h!toggle</h4>
+				<p>Enables or disables one of Hifumi's functions.</p>
+				<p>Usage:
+					<code>h!toggle &LeftAngleBracket;setting&RightAngleBracket;</code>
+				</p>
+				<a href="#main" class="button alt scrolly">Return to top</a>
+
+				<hr class="major" />
+				<h3 class="align-center" id="fun">Fun Commands</h3>
+				<h4>h!clap</h4>
+				<p>Adds claps to the spaces in your sentence</p>
+				<p>Usage:
+					<code>h!clap &LeftAngleBracket;sentence&RightAngleBracket;</code>
+				</p>
+				<br>
+				<h4>h!clapd</h4>
+				<p>Adds claps to the spaces in your sentence, and deletes your message</p>
+				<p>Usage:
+					<code>h!clapd &LeftAngleBracket;sentence&RightAngleBracket;</code>
+				</p>
+				<br>
+				<p>h!expand</p>
+				<p>Converts the text of your message to full width.</p>
+				<p>Usage:
+					<code>h!expand &LeftAngleBracket;text&RightAngleBracket;</code>
+				</p>
+				<br>
+				<h4>h!expandd</h4>
+				<p>Converts the text to full width, and deletes your message</p>
+				<p>Usage:
+					<code>h!expandd &LeftAngleBracket;text&RightAngleBracket;</code>
+				</p>
+				<br>
+				<h4>h!fox</h4>
+				<p>Gets a random picture of a fox.</p>
+				<br>
+				<h4>h!neko</h4>
+				<p>Gets a random picture of a cat girl.</p>
+				<br>
+				<h4>h!owo</h4>
+				<p>Owoifies you message</p>
+				<p>Usage:
+					<code>h!owo &LeftAngleBracket;sentence&RightAngleBracket;</code>
+				</p>
+				<a href="#main" class="button alt scrolly">Return to top</a>
+
+				<hr class="major" />
+				<h3 class="align-center" id="game">Game Commands</h3>
+				<h4>h!osu</h4>
+				<p>Shows osu! statistics for a user</p>
+				<p>Usage: Enter numbers from the menus, provide a username after.</p>
+				<br>
+				<h4>h!steam</h4>
+				<p>Shows a user's Steam profile.</p>
+				<p>Usage:
+					<code>h!steam &LeftAngleBracket;user id&RightAngleBracket;</code>
+				</p>
+				<br>
+				<h4>h!wows</h4>
+				<p>Usage: Enter a number from the menu that shows up, and provide a username after.</p>
+				<a href="#main" class="button alt scrolly">Return to top</a>
+
+				<hr class="major" />
+				<h3 class="align-center" id="general">General Commands</h3>
+				<a href="#main" class="button alt scrolly">Return to top</a>
+
+				<hr class="major" />
+				<h3 class="align-center" id="image">Image Commands</h3>
+				<h4>h!cuddle</h4>
+				<p>Cuddle up with someone</p>
+				<p>Usage:
+					<code>h!cuddle [user]</code>
+				</p>
+				<br>
+				<h4>h!slap</h4>
+				<p>Slap someone who is acting up.</p>
+				<p>Usage:
+					<code>h!slap [user]</code>
+				</p>
+				<br>
+				<h4>h!pat</h4>
+				<p>Give out a head pat</p>
+				<p>Usage:
+					<code>h!pat [user]</code>
+				</p>
+				<br>
+				<h4>h!poke</h4>
+				<p>Poke someone</p>
+				<p>Usage:
+					<code>h!poke [user]</code>
+				</p>
+				<a href="#main" class="button alt scrolly">Return to top</a>
+
+				<hr class="major" />
+				<h3 class="align-center" id="help">Help Commands</h3>
+				<h4>h!help</h4>
+				<p>Shows all of the commands.</p>
+				<br>
+				<h4>h!info</h4>
+				<p>Shows details on a command's usage.</p>
+				<p>Usage:
+					<code>h!info &LeftAngleBracket;command name&RightAngleBracket;</code>
+				</p>
+				<br>
+				<h4>h!support</h4>
+				<p>Provides a link to Hifumi's support server</p>
+				<a href="#main" class="button alt scrolly">Return to top</a>
+
+				<hr class="major" />
+				<h3 class="align-center" id="mod">Moderator Commands</h3>
+				<h4>h!ban</h4>
+				<p>Bans a user or users from the server.</p>
+				<p>Usage:
+					<code>h!ban &LeftAngleBracket;user&RightAngleBracket;</code>
+					<code>h!ban &LeftAngleBracket;user id&RightAngleBracket;</code>
+					<code>h!ban &LeftAngleBracket;user&RightAngleBracket; &LeftAngleBracket;user&RightAngleBracket; ...</code>
+				</p>
+				<br>
+				<h4>h!blacklist</h4>
+				<p>Prevents someone from using Hifumi's functions.</p>
+				<p>Usage:
+					<code>h!blacklist add &LeftAngleBracket;user&RightAngleBracket;</code>
+					<code>h!blacklist remove &LeftAngleBracket;user&RightAngleBracket;</code>
+				</p>
+				<br>
+				<h4>h!kick</h4>
+				<p>Kicks a user or users from the server.</p>
+				<p>Usage:
+					<code>h!kick &LeftAngleBracket;user&RightAngleBracket;</code>
+					<code>h!kick &LeftAngleBracket;user&RightAngleBracket; &LeftAngleBracket;user&RightAngleBracket; ...</code>
+				</p>
+				<br>
+				<h4>h!mute</h4>
+				<p>Mute a user, preventing them from sending messages, files, or adding reactions.</p>
+				<p>Usage:
+					<code>h!mute &LeftAngleBracket;user&RightAngleBracket;</code>
+				</p>
+				<br>
+				<h4>h!purge</h4>
+				<p>Delete messages from a channel. Default amount is 10</p>
+				<p>Usage:
+					<code>h!purge [amount]</code>
+					<code>h!purge &LeftAngleBracket;user&RightAngleBracket; [amount]</code>
+				</p>
+				<br>
+				<h4>h!reason</h4>
+				<p>Specifies or changes the reason of a mod log case.</p>
+				<p>Usage:
+					<code>h!reason &LeftAngleBracket;case number&RightAngleBracket; &LeftAngleBracket;reason&RightAngleBracket;</code>
+				</p>
+				<br>
+				<h4>h!resetwarns</h4>
+				<p>Resets a user's warnings.</p>
+				<p>Usage:
+					<code>h!resetwarns &LeftAngleBracket;user&RightAngleBracket;</code>
+				</p>
+				<br>
+				<h4>h!unmute</h4>
+				<p>Unmutes a user, allowing them to again send message, files, and add reactions.</p>
+				<p>Usage:
+					<code>h!unmute &LeftAngleBracket;user&RightAngleBracket;</code>
+				</p>
+				<br>
+				<h4>h!warn</h4>
+				<p>Issue a user a warning.</p>
+				<p>Usage:
+					<code>h!warn &LeftAngleBracket;user&RightAngleBracket;</code>
+				</p>
+				<a href="#main" class="button alt scrolly">Return to top</a>
+
+				<hr class="major" />
+				<h3 class="align-center" id="nsfw">NSFW Commands</h3>
+				<a href="#main" class="button alt scrolly">Return to top</a>
+
+				<hr class="major" />
+				<h3 class="align-center" id="search">Search Commands</h3>
+				<h4>h!dotnet</h4>
+				<p>Searches Microsoft Docs for classes, methods, and namespaces (C# references)</p>
+				<p>Usage:
+					<code>h!dotnet &LeftAngleBracket;search term&RightAngleBracket;</code>
+				</p>
+				<br>
+				<h4>h!lmgtfy</h4>
+				<p>Help someone search google for something.</p>
+				<p>Usage:
+					<code>h!lmgtfy [search]</code>
+				</p>
+				<a href="#main" class="button alt scrolly">Return to top</a>
+
+				<hr class="major" />
+				<h3 class="align-center" id="tag">Tag Commands</h3>
+				<a href="#main" class="button alt scrolly">Return to top</a>
+			</div>
+		</section>
+
+		<footer id="footer">
+			<div class="inner">
+				<div class="copyright">
+					<ul class="icons">
+						<li>
+							<a href="https://github.com/vic485/hifumi" class="icon fa-github">
+								<span class="label">GitHub</span>
+							</a>
+						</li>
+						<li>
+							<a href="https://twitter.com/thevic485" class="icon fa-twitter">
+								<span class="label">Twitter</span>
+							</a>
+						</li>
+					</ul>
+					&copy; vic485. Design:
+					<a href="https://templated.co">TEMPLATED</a>.
+				</div>
+			</div>
+		</footer>
+	</div>
+
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.scrolly.min.js"></script>
+	<script src="assets/js/skel.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+</body>
+
+</html>

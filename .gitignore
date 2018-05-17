@@ -1,0 +1,8 @@
+# Leftovers from branch changes
+.vscode/
+bin/
+obj/
+resources/
+Translation/json/
+DatabaseConfig.json
+log.txt
