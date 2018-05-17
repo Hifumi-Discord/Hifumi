@@ -9,7 +9,7 @@ using static Hifumi.Addons.Embeds;
 
 namespace Hifumi.Modules
 {
-    [Name("helpcommands"), RequireBotPermission(ChannelPermission.SendMessages)]
+    [Name("Help Commands"), RequireBotPermission(ChannelPermission.SendMessages)]
     public class HelpModule : Base
     {
         IServiceProvider Provider { get; }
@@ -27,7 +27,7 @@ namespace Hifumi.Modules
                 .WithAuthor("List of all commands", Context.Client.CurrentUser.GetAvatarUrl())
                 .WithFooter($"For More Information On A Command's Usage: {Context.Config.Prefix}info <command>", Emotes.Hifumi.Url);
             foreach (var Commands in CommandService.Commands.Where(x => x.Module.Name != "Owner Commands").GroupBy(x => x.Module.Name).OrderBy(y => y.Key))
-                Embed.AddField(Translator.GetCommand(Commands.Key, Context.Server.Locale), $"`{string.Join("`, `", Commands.Select(x => x.Name).Distinct())}`");
+                Embed.AddField(/*Translator.GetCommand(Commands.Key, Context.Server.Locale)*/ Commands.Key, $"`{string.Join("`, `", Commands.Select(x => x.Name).Distinct())}`");
             return ReplyAsync(string.Empty, Embed.Build());
         }
 
@@ -42,7 +42,7 @@ namespace Hifumi.Modules
                 .AddField("Aliases", string.Join(", ", Command.Aliases), true)
                 .AddField("Arguments", Command.Parameters.Any() ? string.Join(", ", Command.Parameters.Select(x => $"`{x.Type.Name}` {x.Name}")) : "No arguments.")
                 .AddField("Usage", $"{Context.Config.Prefix}{Command.Name} {string.Join(" ", Command.Parameters)}")
-                .AddField("Summary", Translator.GetCommand(Command.Name, Context.Server.Locale))
+                .AddField("Summary", /*Translator.GetCommand(Command.Name, Context.Server.Locale)*/ Command.Summary)
                 .WithThumbnailUrl(Context.Client.CurrentUser.GetAvatarUrl());
             var GetChar = Command.Parameters.Where(x => x.Type == typeof(char));
             if (GetChar.Any()) Embed.AddField($"{GetChar.FirstOrDefault()?.Name} Values", "a, r, m. a = Add, r = remove, m = Modify.");
