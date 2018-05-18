@@ -18,6 +18,11 @@ namespace Hifumi.Modules
         public async Task BanAsync(IGuildUser user, [Remainder] string reason = null)
         {
             if (user == await Context.Guild.GetCurrentUserAsync()) return;
+            if (!IsHigherRanked(Context.User as SocketGuildUser, user as SocketGuildUser))
+            {
+                await ReplyAsync($"Error: {user.Username} is ranked higher than you.");
+                return;
+            }
             await Context.Guild.AddBanAsync(user, 1, reason).ConfigureAwait(false);
             await Context.GuildHelper.LogAsync(Context, user, CaseType.Ban, reason).ConfigureAwait(false);
             await ReplyAsync($"***{user} was banned.***", document: DocumentType.Server).ConfigureAwait(false);
@@ -29,6 +34,11 @@ namespace Hifumi.Modules
             foreach (var user in users)
             {
                 if (user == await Context.Guild.GetCurrentUserAsync()) continue;
+                if (!IsHigherRanked(Context.User as SocketGuildUser, user as SocketGuildUser))
+                {
+                    await ReplyAsync($"Error: {user.Username} is ranked higher than you.");
+                    continue;
+                }
                 await Context.Guild.AddBanAsync(user, 1, "Mass ban.");
                 await Context.GuildHelper.LogAsync(Context, user, CaseType.Ban, "Mass ban.");
             }
@@ -39,6 +49,15 @@ namespace Hifumi.Modules
         public async Task BanAsync(ulong userId, [Remainder] string reason = null)
         {
             if (userId == (await Context.Guild.GetCurrentUserAsync()).Id) return;
+            var user = await Context.Guild.GetUserAsync(userId);
+            if (user != null)
+            {
+                if (!IsHigherRanked(Context.User as SocketGuildUser, user as SocketGuildUser))
+                {
+                    await ReplyAsync($"Error: {user.Username} is ranked higher than you.");
+                    return;
+                }
+            }
             await Context.Guild.AddBanAsync(userId, 1, reason);
             await ReplyAsync($"*{userId} was banned.*");
         }
@@ -47,6 +66,7 @@ namespace Hifumi.Modules
         public Task Blacklist(AdminCollectionAction action, IGuildUser user)
         {
             if (user.IsBot) return Task.CompletedTask;
+            if (!IsHigherRanked(Context.User as SocketGuildUser, user as SocketGuildUser)) return ReplyAsync($"Error: {user.Username} is ranked higher than you.");
             var profile = Context.GuildHelper.GetProfile(Context.Guild.Id, user.Id);
             switch (action)
             {
@@ -68,6 +88,11 @@ namespace Hifumi.Modules
         public async Task KickAsync(IGuildUser user, [Remainder] string reason = null)
         {
             if (user == await Context.Guild.GetCurrentUserAsync()) return;
+            if (!IsHigherRanked(Context.User as SocketGuildUser, user as SocketGuildUser))
+            {
+                await ReplyAsync($"Error: {user.Username} is ranked higher than you.");
+                return;
+            }
             await user.KickAsync(reason).ConfigureAwait(false);
             await Context.GuildHelper.LogAsync(Context, user, CaseType.Kick, reason).ConfigureAwait(false);
             await ReplyAsync($"***{user} was kicked.***", document: DocumentType.Server).ConfigureAwait(false);
@@ -79,6 +104,11 @@ namespace Hifumi.Modules
             foreach (var user in users)
             {
                 if (user == await Context.Guild.GetCurrentUserAsync()) continue;
+                if (!IsHigherRanked(Context.User as SocketGuildUser, user as SocketGuildUser))
+                {
+                    await ReplyAsync($"Error: {user.Username} is ranked higher than you.");
+                    continue;
+                }
                 await user.KickAsync("Mass kick.").ConfigureAwait(false);
                 await Context.GuildHelper.LogAsync(Context, user, CaseType.Kick, "Mass kick.").ConfigureAwait(false);
             }
@@ -89,6 +119,11 @@ namespace Hifumi.Modules
         public async Task MuteAsync(IGuildUser user, string reason = null) // TODO: clean up
         {
             if (user == await Context.Guild.GetCurrentUserAsync()) return;
+            if (!IsHigherRanked(Context.User as SocketGuildUser, user as SocketGuildUser))
+            {
+                await ReplyAsync($"Error: {user.Username} is ranked higher than you.");
+                return;
+            }
             if (user.RoleIds.Contains(Context.Server.Mod.MuteRole))
             {
                 await ReplyAsync($"{user} is already muted.");
@@ -218,6 +253,11 @@ namespace Hifumi.Modules
         public async Task WarnAsync(IGuildUser user, [Remainder] string reason = null)
         {
             if (user.IsBot) return;
+            if (!IsHigherRanked(Context.User as SocketGuildUser, user as SocketGuildUser))
+            {
+                await ReplyAsync($"Error: {user.Username} is ranked higher than you.");
+                return;
+            }
             string warnmessage = $"[Warned in {Context.Guild.Name}]** {reason}";
             await (await user.GetOrCreateDMChannelAsync()).SendMessageAsync(warnmessage);
             var profile = Context.GuildHelper.GetProfile(Context.Guild.Id, user.Id);
@@ -233,5 +273,8 @@ namespace Hifumi.Modules
             Context.GuildHelper.SaveProfile(Context.Guild.Id, user.Id, profile);
             await ReplyAsync($"{user} has been warned.");
         }
+
+        private bool IsHigherRanked(SocketGuildUser user1, SocketGuildUser user2)
+            => user1.Hierarchy > user1.Hierarchy;
     }
 }
