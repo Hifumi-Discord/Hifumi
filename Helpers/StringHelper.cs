@@ -124,15 +124,11 @@ namespace Hifumi.Helpers
             switch (nsfwType)
             {
                 case NsfwType.Danbooru:
-                    result = $"http://danbooru.donmai.us/{matches[random.Next(matches.Count)].Groups[1].Value}";
-                    break;
                 case NsfwType.Konachan:
                 case NsfwType.Gelbooru:
-                    result = $"http:{matches[random.Next(matches.Count)].Groups[1].Value}";
-                    break;
                 case NsfwType.Yandere:
                 case NsfwType.Rule34:
-                    result = $"http:{matches[random.Next(matches.Count)].Groups[1].Value}";
+                    result = matches[random.Next(matches.Count)].Groups[1].Value;
                     break;
                 case NsfwType.Cureninja:
                     result = matches[random.Next(matches.Count)].Groups[1].Value.Replace("\\/", "/");

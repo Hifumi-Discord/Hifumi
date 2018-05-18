@@ -24,41 +24,41 @@ fox_girl    --kitsune
 hug     [hug command]
 
 --NSFW enpoints--
-feet
-yuri
-trap
-futanari
-hololewd
-lewdkemo
-solog
-feetg
-cum
-erokemo
+feet    lewd --feet
+yuri    lewd --yuri
+trap    lewd --trap
+futanari    lewd --futa
+hololewd    lewd --holo
+lewdkemo    lewd --kemo
+solog   lewd --solo --gif
+feetg   lewd --feet --gif
+cum     lewd --cum  --gif
+erokemo ero --kemo
 les
-lewdk
-lewd
-eroyuri
-eron
-cum_jpg
-bj
+lewdk   lewd --kitsune
+lewd    lewd default
+eroyuri ero --yuri
+eron    ero --neko
+cum_jpg lewd --cum
+bj      lewd --bj --gif
 nsfw_neko_gif
-solo
+solo    lewd --solo
 nsfw_avatar
-anal
-hentai
-erofeet
-keta
-blowjob
-pussy
-tits
-holoero
-pussy_jpg
+anal    lewd --anal
+hentai  lewd --hentai
+erofeet ero --feet
+keta    lewd --keta
+blowjob lewd --bj
+pussy   lewd --pussy --gif
+tits    lewd --busty  
+holoero ero --holo
+pussy_jpg   lewd --pussy
 pwankg
 classic
-kuni
-femdom
-erok
-boobs
+kuni    lewd --kuni
+femdom  lewd --femdom
+erok    ero --kitsune
+boobs   lewd --busty --gif
 Random_hentai_gif
-smallboobs
-ero
+smallboobs  lewd --flat
+ero     ero default
