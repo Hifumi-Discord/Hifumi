@@ -8,8 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Colorful.Console" Version="1.2.6" />
-    <PackageReference Include="Discord.Net" Version="2.0.0-beta2-00933" />
-    <PackageReference Include="Discord.Net.Providers.WS4Net" Version="2.0.0-beta2-00933" />
+    <PackageReference Include="Discord.Net" Version="2.0.0-beta2-00940" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="2.8.0-beta4" />
     <PackageReference Include="RavenDB.Client" Version="4.0.4-nightly-20180517-0400" />
     <PackageReference Include="SixLabors.Fonts" Version="1.0.0-beta0003" />

@@ -90,7 +90,7 @@ namespace Hifumi.Modules
         [Command("rip"), Summary("Mark the death of a user.")]
         public async Task RipAsync(IGuildUser user)
         {
-            bool ayana = (Context.Guild.GetUserAsync(185476724627210241) != null || Context.Guild.GetUserAsync(349764485348589568) != null);
+            bool ayana = (await Context.Guild.GetUserAsync(185476724627210241) != null || await Context.Guild.GetUserAsync(349764485348589568) != null);
             string path = await ImageHelper.GraveAsync(user, Context.HttpClient, ayana);
             await Context.Channel.SendFileAsync(path);
         }
