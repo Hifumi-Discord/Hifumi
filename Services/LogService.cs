@@ -52,7 +52,7 @@ namespace Hifumi.Services
             foreach (string line in header)
                 Append($"{line}\n", Color.DarkMagenta);
             Append("-> INFORMATION\n", Color.Crimson);
-            Append("\tAuthor: vic485\n\tVersion: 2018-Beta-04-27\n", Color.Bisque);
+            Append("\tAuthor: vic485\n\tVersion: 2018-Beta-05-19\n", Color.Bisque);
             Append("-> PACKAGES\n", Color.Crimson);
             Append($"\tDiscord: {Discord.DiscordConfig.Version}\n\tRavenDB: {Raven.Client.Properties.RavenVersionAttribute.Instance.FullVersion}\n", Color.Bisque);
             FileLog($"\n\n=================================[ {DateTime.Now.ToString("MM/dd/yyy HH:mm:ss")} ]=================================\n\n");

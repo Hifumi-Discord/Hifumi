@@ -10,7 +10,7 @@ namespace Hifumi.Addons.Preconditions
         {
             var channel = context.Channel as Discord.ITextChannel;
             if (channel.IsNsfw || channel.Name.Contains("nsfw")) return Task.FromResult(PreconditionResult.FromSuccess());
-            return Task.FromResult(PreconditionResult.FromError($"**{info.Name}** command can only be ran in NSFW channel, pervert."));
+            return Task.FromResult(PreconditionResult.FromError($"**{info.Name}** command can only be ran in NSFW channel."));
         }
     }
 }
