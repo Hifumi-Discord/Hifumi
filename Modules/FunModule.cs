@@ -1,12 +1,13 @@
 using Discord;
 using Discord.Commands;
 using Hifumi.Addons;
-using static Hifumi.Addons.Embeds;
+using Hifumi.Addons.Preconditions;
 using Hifumi.Helpers;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using static Hifumi.Addons.Embeds;
 
 namespace Hifumi.Modules
 {
@@ -34,7 +35,7 @@ namespace Hifumi.Modules
             await ReplyAsync(string.Join("", message.Select(x => StringHelper.Normal.Contains(x) ? x : ' ').Select(x => StringHelper.FullWidth[StringHelper.Normal.IndexOf(x)])));
         }
 
-        [Command("fox"), Summary("Get an image of a random mischievous fox.")]
+        [Command("fox"), Summary("Get an image of a random mischievous fox."), RequireCooldown(10)]
         public async Task FoxAsync()
         {
             var fox = JToken.Parse(await Context.HttpClient.GetStringAsync("https://randomfox.ca/floof/"));
@@ -46,7 +47,7 @@ namespace Hifumi.Modules
             await ReplyAsync(string.Empty, embed);
         }
 
-        [Command("neko"), Summary("The best command out there. Option: --[gif/holo/kemono/kitsune]")]
+        [Command("neko"), Summary("The best command out there. Option: --[gif/holo/kemono/kitsune]"), RequireCooldown(10)]
         public async Task NekoAsync(string option = null)
         {
             string url = "https://nekos.life/api/v2/img/";
@@ -75,7 +76,7 @@ namespace Hifumi.Modules
             await ReplyAsync(string.Empty, embed);
         }
 
-        [Command("owo")]
+        [Command("owo"), RequireCooldown(10)]
         public async Task OwoAsync([Remainder] string message = null)
         {
             if (message == null)

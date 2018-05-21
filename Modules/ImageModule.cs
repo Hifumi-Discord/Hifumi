@@ -2,15 +2,16 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Hifumi.Addons;
-using static Hifumi.Addons.Embeds;
+using Hifumi.Addons.Preconditions;
 using Hifumi.Personality;
-using static Hifumi.Personality.Emotes;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
+using static Hifumi.Addons.Embeds;
+using static Hifumi.Personality.Emotes;
 
 namespace Hifumi.Modules
 {
-    [Name("Image Commands"), RequireBotPermission(ChannelPermission.SendMessages)]
+    [Name("Image Commands"),RequireCooldown(10) , RequireBotPermission(ChannelPermission.SendMessages)]
     public class ImageModule : Base
     {
         [Command("cuddle")]
