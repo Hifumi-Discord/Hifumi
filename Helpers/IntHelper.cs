@@ -12,8 +12,9 @@ namespace Hifumi.Helpers
 
         public static int GetGuildRank(IContext context, ulong userId)
         {
-            var profile = context.Server.Profiles.OrderByDescending(x => x.Value.ChatXP).FirstOrDefault(x => x.Key == userId);
-            return context.Server.Profiles.ToList().IndexOf(profile);
+            var profileList = context.Server.Profiles.OrderByDescending(x => x.Value.ChatXP).ToList();
+            var profile = profileList.FirstOrDefault(x => x.Key == userId);
+            return profileList.IndexOf(profile);
         }
     }
 }
