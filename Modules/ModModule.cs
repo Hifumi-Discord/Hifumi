@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Hifumi.Modules
 {
-    [Name("Moderator Commands"), RequirePermission(AccessLevel.Moderator), RequireBotPermission(ChannelPermission.SendMessages)]
+    [Name("modmodule"), RequirePermission(AccessLevel.Moderator), RequireBotPermission(ChannelPermission.SendMessages)]
     public class ModModule : Base
     {
         [Command("ban"), Summary("Bans a user from the server."), RequireBotPermission(GuildPermission.BanMembers)]

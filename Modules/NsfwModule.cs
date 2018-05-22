@@ -11,7 +11,7 @@ using static Hifumi.Addons.Embeds;
 
 namespace Hifumi.Modules
 {
-    [Name("NSFW Commands"), RequireNSFW, RequireCooldown(15), RequireBotPermission(ChannelPermission.SendMessages)]
+    [Name("nsfwmodule"), RequireNSFW, RequireCooldown(15), RequireBotPermission(ChannelPermission.SendMessages)]
     public class NsfwModule : Base
     {
         [Command("cureninja"), Summary("Searches Cureninja for tags.")]

@@ -101,7 +101,9 @@ namespace Hifumi.Models
 
     public enum Locale
     {
+        De,
         En,
         Ja,
+        Pt
     }
 }

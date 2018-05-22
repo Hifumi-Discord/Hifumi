@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Hifumi.Modules
 {
-    [Name("Economy Commands"), RequireBotPermission(ChannelPermission.SendMessages)]
+    [Name("economy"), RequireBotPermission(ChannelPermission.SendMessages)]
     public class EconomyModule : Base
     {
         [Command("daily"), Summary("Get your daily credits")]

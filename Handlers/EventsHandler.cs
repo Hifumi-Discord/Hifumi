@@ -156,12 +156,16 @@ namespace Hifumi.Handlers
             {
                 case CommandError.Exception:
                     LogService.Write(LogSource.EXC, result.ErrorReason, CC.Crimson);
-                    return;
+                    break;
                 case CommandError.UnmetPrecondition:
                     // TODO: DM error if we can't send a message?
                     if (!result.ErrorReason.Contains("SendMessages")) await context.Channel.SendMessageAsync(result.ErrorReason);
                     return;
-                default:
+                case CommandError.BadArgCount:
+                case CommandError.ObjectNotFound:
+                case CommandError.ParseFailed:
+                case CommandError.UnknownCommand:
+                case CommandError.Unsuccessful:
                     await context.Channel.SendMessageAsync($"{result.Error}: {result.ErrorReason}");
                     break;
             }

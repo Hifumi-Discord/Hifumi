@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Hifumi.Modules
 {
+    [Name("searchmodule"), RequireBotPermission(ChannelPermission.SendMessages)]
     public class SearchModule : Base
     {
         [Command("dotnet"), Summary("Search microsoft docs for classes, methods, and namespaces.")]

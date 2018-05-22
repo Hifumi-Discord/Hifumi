@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Hifumi.Modules
 {
-    [Name("Game Commands"), RequireBotPermission(ChannelPermission.SendMessages)]
+    [Name("gamesmodule"), RequireBotPermission(ChannelPermission.SendMessages)]
     public class GamesModule : Base
     {
         [Command("osu"), RequireCooldown(30), Summary("Show a user's osu stats.")]

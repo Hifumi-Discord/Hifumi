@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace Hifumi.Modules
 {
-    [Name("Administrative Commands"), RequirePermission(AccessLevel.Administrator), RequireBotPermission(ChannelPermission.SendMessages)]
+    [Name("adminmodule"), RequirePermission(AccessLevel.Administrator), RequireBotPermission(ChannelPermission.SendMessages)]
     public class AdminModule : Base
     {
         [Command("blockxp"), Summary("Prevent a role from gaining chat XP.")]
@@ -211,7 +211,7 @@ namespace Hifumi.Modules
             return ReplyAsync("Guild config has been recreated.", document: DocumentType.Server);
         }
 
-        [Command("selfroles"), Summary("Adds/Removes role to/from self assignable roles.")]
+        [Command("selfrolelist"), Summary("Adds/Removes role to/from self assignable roles.")]
         public Task SelfRolesAsync(AdminCollectionAction action, [Remainder] IRole role)
         {
             if (role == Context.Guild.EveryoneRole) return ReplyAsync("Role can't be everyone role.");

@@ -11,7 +11,7 @@ using static Hifumi.Addons.Embeds;
 
 namespace Hifumi.Modules
 {
-    [Name("Fun Commands"), RequireBotPermission(ChannelPermission.SendMessages)]
+    [Name("funmodule"), RequireBotPermission(ChannelPermission.SendMessages)]
     public class FunModule : Base
     {
         [Command("clap"), Summary("Replaces spaces in your message with the clap emoji.")]

@@ -11,7 +11,7 @@ using static Hifumi.Personality.Emotes;
 
 namespace Hifumi.Modules
 {
-    [Name("Image Commands"),RequireCooldown(10) , RequireBotPermission(ChannelPermission.SendMessages)]
+    [Name("imagemodule"),RequireCooldown(10) , RequireBotPermission(ChannelPermission.SendMessages)]
     public class ImageModule : Base
     {
         [Command("cuddle")]

@@ -1,5 +1,6 @@
 using Hifumi.Models;
 using Hifumi.Personality;
+using Hifumi.Translation.Models;
 using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Linq;
@@ -16,20 +17,36 @@ namespace Hifumi.Translation
             return data;
         }
 
-        public static string GetCommand(string command, Locale locale)
+        #region Help related
+        public static CommandModel GetCommand(string command, Locale locale)
         {
-            // FIXME: Temporary until everything else is done
-            string data;
+            JToken data;
             try
             {
-                data = JToken.Parse(File.ReadAllText($"./Translation/json/{locale.ToString().ToLower()}/commands.json"))[command].ToString();
+                data = JToken.Parse(File.ReadAllText($"./Translation/json/{locale.ToString().ToLower()}/commands.json"))[command];
             }
             catch
             {
-                data = command;
+                data = JToken.Parse(File.ReadAllText($"./Translation/json/en/commands.json"))[command].ToString();
             }
-            return StringHelper(data);
+            return data.ToObject<CommandModel>();
         }
+
+        public static string GetModule(string moduleName, Locale locale)
+        {
+            string data;
+            try
+            {
+                data = JToken.Parse(File.ReadAllText($"./Translation/json/{locale.ToString().ToLower()}/commands.json"))[moduleName].ToString();
+            }
+            catch
+            {
+                //data = JToken.Parse(File.ReadAllText($"./Translation/json/en/commands.json"))[moduleName].ToString();
+                data = moduleName;
+            }
+            return data;
+        }
+        #endregion
 
         static string StringHelper(string message)
         {

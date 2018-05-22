@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Hifumi.Modules
 {
-    [Name("General Commands"), RequireBotPermission(ChannelPermission.SendMessages)]
+    [Name("generalmodule"), RequireBotPermission(ChannelPermission.SendMessages)]
     public class GeneralModule : Base
     {
         [Command("afk"), Summary("Set yourself as afk.")]
