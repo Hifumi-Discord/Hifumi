@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static Hifumi.Addons.Embeds;
 
 namespace Hifumi.Helpers
 {
@@ -118,15 +119,13 @@ namespace Hifumi.Helpers
             if (profile.Warnings >= config.Mod.MaxWarnings)
             {
                 await (message.Author as SocketGuildUser).KickAsync("Kicked By AutoMod.");
-                await guild.GetTextChannel(config.Mod.TextChannel).SendMessageAsync(
-                    $"**Kick** | Case {config.Mod.Cases.Count + 1}\n**User:** {message.Author} ({message.Author.Id})\n**Reason:** Reached max warnings.\n" +
-                    $"**Responsible Moderator:** {Client.CurrentUser}"
-                );
+                await GuildHelper.LogAsync(guild, message.Author, Client.CurrentUser, CaseType.Kick, warning);
             }
             else
             {
                 profile.Warnings++;
                 GuildHelper.SaveProfile(guild.Id, message.Author.Id, profile);
+                await GuildHelper.LogAsync(guild, message.Author, Client.CurrentUser, CaseType.Warning, warning);
             }
             await message.Channel.SendMessageAsync(warning);
         }

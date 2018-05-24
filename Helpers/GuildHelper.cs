@@ -76,6 +76,33 @@ namespace Hifumi.Helpers
             context.GuildHandler.Save(context.Server);
         }
 
+        public async Task LogAsync(SocketGuild guild, IUser user, IUser mod, CaseType caseType, string reason)
+        {
+            var server = GuildHandler.GetGuild(guild.Id);
+            reason = reason ?? $"*Responsible moderator, please type `{server.Prefix}reason {server.Mod.Cases.Count + 1} <reason>`*";
+            var modChannel = guild.GetTextChannel(server.Mod.TextChannel);
+            if (modChannel == null) return;
+            var embed = GetEmbed(Paint.Aqua)
+                .WithAuthor($"Case #{server.Mod.Cases.Count + 1} | {caseType} | {user.Username}#{user.Discriminator}", user.GetAvatarUrl())
+                .AddField("User", user.Mention, true)
+                .AddField("Moderator", mod.Mention, true)
+                .AddField("Reason", reason)
+                .WithFooter($"ID: {user.Id}")
+                .WithCurrentTimestamp()
+                .Build();
+            var message = await modChannel.SendMessageAsync(string.Empty, embed: embed);
+            server.Mod.Cases.Add(new CaseWrapper
+            {
+                UserId = user.Id,
+                ModId = mod.Id,
+                Reason = reason,
+                CaseType = caseType,
+                MessageId = message.Id,
+                CaseNumber = server.Mod.Cases.Count + 1
+            });
+            GuildHandler.Save(server);
+        }
+
         public Task Purge(IEnumerable<IUserMessage> messages, ITextChannel channel, int amount)
             => amount <= 100 ? channel.DeleteMessagesAsync(messages) :
                 Task.Run(() =>
