@@ -2,11 +2,11 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Hifumi.Addons;
-using static Hifumi.Addons.Embeds;
 using Hifumi.Addons.Preconditions;
 using Hifumi.Enums;
 using Hifumi.Helpers;
 using Hifumi.Models;
+using Hifumi.Translation;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,16 +14,17 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Hifumi.Addons.Embeds;
 
 namespace Hifumi.Modules
 {
     [Name("adminmodule"), RequirePermission(AccessLevel.Administrator), RequireBotPermission(ChannelPermission.SendMessages)]
     public class AdminModule : Base
     {
-        [Command("blockxp"), Summary("Prevent a role from gaining chat XP.")]
+        [Command("blockxp")]
         public Task BlockXP(AdminCollectionAction action, [Remainder] IRole role)
         {
-            if (role == Context.Guild.EveryoneRole) return ReplyAsync($"Role can't be everyone role.");
+            if (role == Context.Guild.EveryoneRole) return ReplyAsync(Translator.AdminValues("everyone", Context.Server.Locale));
             var check = Context.GuildHelper.ListCheck(Context.Server.ChatXP.XPBlockedRoles, role.Id, role.Name, "XP-blocked roles");
             switch (action)
             {
@@ -39,7 +40,7 @@ namespace Hifumi.Modules
             return Task.CompletedTask;
         }
 
-        [Command("blockxp"), Summary("Show all roles that are blocked from gaining chat XP.")]
+        [Command("blockxp")]
         public Task BlockXP()
         {
             if (!Context.Server.ChatXP.XPBlockedRoles.Any())
@@ -56,7 +57,7 @@ namespace Hifumi.Modules
             var owner = await (Context.Guild as SocketGuild).Owner.GetOrCreateDMChannelAsync();
             if (Context.Guild.OwnerId != Context.User.Id)
             {
-                await ReplyAsync($"You must be the server's owner to do this.");
+                await ReplyAsync(Translator.AdminValues("require_owner", Context.Server.Locale));
                 return;
             }
             var serialize = JsonConvert.SerializeObject(Context.Server, Formatting.Indented, new JsonSerializerSettings
@@ -66,7 +67,7 @@ namespace Hifumi.Modules
             await owner.SendFileAsync(new MemoryStream(Encoding.Unicode.GetBytes(serialize)), $"{Context.Guild.Id}-config.json");
         }
 
-        [Command("joinmessage"), Summary("Add/Remove join message. {user} to mention user. {guild} to print server name.")]
+        [Command("joinmessage")]
         public Task JoinMessage(AdminCollectionAction action, [Remainder] string message = null)
         {
             var check = Context.GuildHelper.ListCheck(Context.Server.JoinMessages, message, $"```{message}```", "join messages");
@@ -82,7 +83,7 @@ namespace Hifumi.Modules
             return Task.CompletedTask;
         }
 
-        [Command("joinmessage"), Summary("Shows all join messages for this server.")]
+        [Command("joinmessage")]
         public Task JoinMessage()
         {
             if (!Context.Server.JoinMessages.Any())
@@ -93,7 +94,7 @@ namespace Hifumi.Modules
             return ReplyAsync(ret);
         }
 
-        [Command("leavemessage"), Summary("Add/Remove leave message. {user} to print user name. {guild} to print server name.")]
+        [Command("leavemessage")]
         public Task LeaveMessage(AdminCollectionAction action, [Remainder] string message = null)
         {
             var check = Context.GuildHelper.ListCheck(Context.Server.LeaveMessages, message, $"```{message}```", "leave messages");
@@ -109,7 +110,7 @@ namespace Hifumi.Modules
             return Task.CompletedTask;
         }
 
-        [Command("leavemessage"), Summary("Shows all join messages for this server.")]
+        [Command("leavemessage")]
         public Task LeaveMessage()
         {
             if (!Context.Server.LeaveMessages.Any())
@@ -120,10 +121,10 @@ namespace Hifumi.Modules
             return ReplyAsync(ret);
         }
 
-        [Command("levelrole"), Summary("Adds/Removes a leveled role")]
+        [Command("levelrole")]
         public Task LevelRole(AdminCollectionAction action, IRole role, int level = 10)
         {
-            if (role == Context.Guild.EveryoneRole) return ReplyAsync("Role can't be everyone role.");
+            if (role == Context.Guild.EveryoneRole) return ReplyAsync(Translator.AdminValues("everyone", Context.Server.Locale));
             if (role.IsManaged) return ReplyAsync("Can't assign managed roles.");
             switch (action)
             {
@@ -145,7 +146,7 @@ namespace Hifumi.Modules
             return Task.CompletedTask;
         }
 
-        [Command("levelrole"), Summary("Shows all leveled roles for this server.")]
+        [Command("levelrole")]
         public Task LevelRole()
         {
             if (!Context.Server.ChatXP.LeveledRoles.Any())
@@ -156,7 +157,7 @@ namespace Hifumi.Modules
             return ReplyAsync(message);
         }
 
-        [Command("messagelog"), Summary("Retrieves messages from deleted messages.")]
+        [Command("messagelog")]
         public Task MessageLog(int old = -1)
         {
             if (!Context.Server.DeletedMessages.Any())
@@ -172,7 +173,7 @@ namespace Hifumi.Modules
             return ReplyAsync(string.Empty, embed);
         }
 
-        [Command("messagelog"), Summary("Retrieves messages from deleted messages.")]
+        [Command("messagelog")]
         public Task MessageLog(SocketGuildUser user = null, int recent = -1)
         {
             user = user ?? Context.User as SocketGuildUser;
@@ -188,10 +189,10 @@ namespace Hifumi.Modules
             return ReplyAsync(string.Empty, embed);
         }
 
-        [Command("reset"), Summary("Resets your server configuration.")]
+        [Command("reset")]
         public Task Reset()
         {
-            if (Context.Guild.OwnerId != Context.User.Id) return ReplyAsync($"You must be the server's owner to do this.");
+            if (Context.Guild.OwnerId != Context.User.Id) return ReplyAsync(Translator.AdminValues("require_owner", Context.Server.Locale));
             var properties = Context.Server.GetType().GetProperties();
             foreach (var property in properties.Where(x => x.Name != "Id" && x.Name != "Prefix"))
             {
@@ -211,7 +212,7 @@ namespace Hifumi.Modules
             return ReplyAsync("Guild config has been recreated.", document: DocumentType.Server);
         }
 
-        [Command("selfrolelist"), Summary("Adds/Removes role to/from self assignable roles.")]
+        [Command("selfrolelist")]
         public Task SelfRolesAsync(AdminCollectionAction action, [Remainder] IRole role)
         {
             if (role == Context.Guild.EveryoneRole) return ReplyAsync("Role can't be everyone role.");
@@ -231,7 +232,7 @@ namespace Hifumi.Modules
             return Task.CompletedTask;
         }
 
-        [Command("setting"), Alias("set"), Summary("Changes server setting values.")]
+        [Command("setting"), Alias("set")]
         public Task SettingAsync(SettingType setting, [Remainder] string value = null)
         {
             value = value ?? string.Empty;
@@ -287,13 +288,14 @@ namespace Hifumi.Modules
             return ReplyAsync($"{setting} has been updated.", document: DocumentType.Server);
         }
 
-        [Command("setting"), Alias("set"), Summary("Displays current server's settings.")]
+        [Command("setting"), Alias("set")]
         public Task SettingAsync()
         {
             string xp = Context.Server.ChatXP.IsEnabled ? "Enabled." : "Disabled.";
             string feed = Context.Server.Reddit.IsEnabled ? "Enabled." : "Disabled.";
             string antiInvite = Context.Server.Mod.AntiInvite ? "Enabled." : "Disabled.";
             string antiProfanity = Context.Server.Mod.AntiProfanity ? "Enabled." : "Disabled.";
+            string messageLog = Context.Server.Mod.LogDeletedMessages ? "Enabled." : "Disabled.";
 
             var embed = GetEmbed(Paint.Aqua)
                 .WithAuthor($"{Context.Guild.Name} Settings", Context.Guild.IconUrl)
@@ -316,6 +318,7 @@ namespace Hifumi.Modules
                     $"+ Subreddits          : {Context.Server.Reddit.Subreddits.Count}\n" +
                     $"+ Profanity Check     : {antiProfanity}\n" +
                     $"+ Invite Check        : {antiInvite}\n" +
+                    $"+ Deleted Message Log : {messageLog}\n" +
                     $"+ Max Warnings        : {Context.Server.Mod.MaxWarnings}\n" +
                     $"+ Leveled Roles       : {Context.Server.ChatXP.LeveledRoles.Count}\n" +
                     $"+ Blacklisted Users   : {Context.Server.Profiles.Where(x => x.Value.IsBlacklisted).Count()}\n" +
@@ -333,7 +336,7 @@ namespace Hifumi.Modules
             return ReplyAsync(string.Empty, embed);
         }
 
-        [Command("subreddit"), Summary("Add or remove subreddit.")]
+        [Command("subreddit")]
         public Task Subreddit(AdminCollectionAction action, string subreddit)
         {
             var check = Context.GuildHelper.ListCheck(Context.Server.Reddit.Subreddits, subreddit, subreddit, "server's subreddits");
@@ -352,7 +355,7 @@ namespace Hifumi.Modules
             return Task.CompletedTask;
         }
 
-        [Command("subreddit"), Summary("Shows all the subreddits this server is subbed to.")]
+        [Command("subreddit")]
         public Task Subreddit()
             => ReplyAsync(!Context.Server.Reddit.Subreddits.Any() ? "This server isn't subscribed to any subreddits." :
                 $"**__Server Subreddits__**\n{string.Join("\n", Context.Server.Reddit.Subreddits)}");

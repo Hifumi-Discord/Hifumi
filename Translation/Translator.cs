@@ -48,6 +48,22 @@ namespace Hifumi.Translation
         }
         #endregion
 
+        #region Settings
+        public static string AdminValues(string key, Locale locale)
+        {
+            JToken data;
+            try
+            {
+                data = JToken.Parse(File.ReadAllText($"./Translation/json/{locale.ToString().ToLower()}/administration.json"))[key];
+            }
+            catch
+            {
+                data = JToken.Parse(File.ReadAllText($"./Translation/json/en/administration.json"))[key];
+            }
+            return data.ToString();
+        }
+        #endregion
+
         static string StringHelper(string message)
         {
             StringBuilder builder = new StringBuilder(message);
