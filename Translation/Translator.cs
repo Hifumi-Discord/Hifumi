@@ -11,6 +11,8 @@ namespace Hifumi.Translation
 {
     public class Translator
     {
+        static string translationPath = "../translation";
+
         public static string GetTranslation(string key, string lang)
         {
             string data = JToken.Parse(File.ReadAllText($"./Translation/json/{lang}.json"))[key].ToString();
@@ -23,11 +25,11 @@ namespace Hifumi.Translation
             JToken data;
             try
             {
-                data = JToken.Parse(File.ReadAllText($"./Translation/json/{locale.ToString().ToLower()}/commands.json"))[command];
+                data = JToken.Parse(File.ReadAllText($"{translationPath}/{locale.ToString().ToLower()}/commands.json"))[command];
             }
             catch
             {
-                data = JToken.Parse(File.ReadAllText($"./Translation/json/en/commands.json"))[command].ToString();
+                data = JToken.Parse(File.ReadAllText($"{translationPath}/en/commands.json"))[command].ToString();
             }
             return data.ToObject<CommandModel>();
         }
@@ -37,12 +39,11 @@ namespace Hifumi.Translation
             string data;
             try
             {
-                data = JToken.Parse(File.ReadAllText($"./Translation/json/{locale.ToString().ToLower()}/commands.json"))[moduleName].ToString();
+                data = JToken.Parse(File.ReadAllText($"{translationPath}/{locale.ToString().ToLower()}/commands.json"))[moduleName].ToString();
             }
             catch
             {
-                //data = JToken.Parse(File.ReadAllText($"./Translation/json/en/commands.json"))[moduleName].ToString();
-                data = moduleName;
+                data = JToken.Parse(File.ReadAllText($"{translationPath}/en/commands.json"))[moduleName].ToString();
             }
             return data;
         }
@@ -54,13 +55,20 @@ namespace Hifumi.Translation
             JToken data;
             try
             {
-                data = JToken.Parse(File.ReadAllText($"./Translation/json/{locale.ToString().ToLower()}/administration.json"))[key];
+                data = JToken.Parse(File.ReadAllText($"{translationPath}/{locale.ToString().ToLower()}/administration.json"))[key];
             }
             catch
             {
-                data = JToken.Parse(File.ReadAllText($"./Translation/json/en/administration.json"))[key];
+                data = JToken.Parse(File.ReadAllText($"{translationPath}/en/administration.json"))[key];
             }
             return data.ToString();
+        }
+        #endregion
+
+        #region Various
+        public static string Collection(string key, Locale locale)
+        {
+            return null;
         }
         #endregion
 
