@@ -19,7 +19,7 @@ namespace Hifumi.Personality
         }
 
         private static List<string> happyEmotes = new List<string>()
-        {   // TODO: More please
+        {
             @"(\*^▽^\*)",
             @"(^▽^)",
             @"(＾▽＾)",
@@ -32,7 +32,26 @@ namespace Hifumi.Personality
             @"(=^▽^=)",
             @"~(˘▾˘~)",
             @"(^o^)／",
-            @">^_^<"
+            @">^_^<",
+            @"(* ^ ω ^)",
+            @"(o^▽^o)",
+            @"☆*:.｡.o(≧▽≦)o.｡.:*☆",
+            @"(o･ω･o)",
+            @"<(￣︶￣)>",
+            @"(´｡• ω •｡`)",
+            @"(￣ω￣)",
+            @"(＠＾◡＾)",
+            @"(((o(\*°▽°\*)o)))",
+            @"(≧◡≦)",
+            @"(\*^‿^\*)",
+            @"(\*≧ω≦\*)",
+            @"＼(≧▽≦)／",
+            @"(￣▽￣)",
+            @"＼(￣▽￣)／",
+            @"＼(＾▽＾)／",
+            @"\\(^ヮ^)/",
+            @"(〃＾▽＾〃)",
+            @"o(>ω<)o"
         };
 
         public static List<string> loveEmotes = new List<string>()
