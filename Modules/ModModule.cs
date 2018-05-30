@@ -264,6 +264,7 @@ namespace Hifumi.Modules
             profile.Warnings++;
             if (Context.Server.Mod.MaxWarnings != 0 && profile.Warnings >= Context.Server.Mod.MaxWarnings)
             {
+                await ResetWarns(user);
                 await user.KickAsync($"{user} was kicked due to maxing out warnings.");
                 await Context.GuildHelper.LogAsync(Context, user, CaseType.Kick, reason);
             }
