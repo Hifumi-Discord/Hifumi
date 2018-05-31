@@ -145,5 +145,15 @@ namespace Hifumi.Helpers
                 await userImage.WriteAsync(image, 0, image.Length).ConfigureAwait(false);
             return $"./cache/{fileName}.png";
         }
+
+        public static string PinCode()
+        {
+            Random gen = new Random();
+            int pin = gen.Next(0, 10000);
+            if (pin < 10) return $"000{pin}";
+            else if (pin < 100) return $"00{pin}";
+            else if (pin < 1000) return $"0{pin}";
+            else return $"{pin}";
+        }
     }
 }

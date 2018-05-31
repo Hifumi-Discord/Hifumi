@@ -190,9 +190,19 @@ namespace Hifumi.Modules
         }
 
         [Command("reset")]
-        public Task Reset()
+        public async Task Reset()
         {
-            if (Context.Guild.OwnerId != Context.User.Id) return ReplyAsync(Translator.AdminValues("require_owner", Context.Server.Locale));
+            if (Context.Guild.OwnerId != Context.User.Id)
+            {
+                await ReplyAsync(Translator.AdminValues("require_owner", Context.Server.Locale));
+                return;
+            }
+            string pin = StringHelper.PinCode();
+            var msg = await ReplyAsync($"**WARNING!**\nThis will completely wipe all settings, chat xp, and user profiles for this server!\n*If you are sure about this type* `{pin}` (Anything else will cancel)");
+            var response = await ResponseWaitAsync(timeout: TimeSpan.FromSeconds(10));
+            await msg.DeleteAsync();
+            if (response == null || response.Content != pin) return;
+
             var properties = Context.Server.GetType().GetProperties();
             foreach (var property in properties.Where(x => x.Name != "Id" && x.Name != "Prefix"))
             {
@@ -209,7 +219,7 @@ namespace Hifumi.Modules
                 if (property.PropertyType == typeof(List<MessageWrapper>)) property.SetValue(Context.Server, new List<MessageWrapper>());
                 if (property.PropertyType == typeof(Dictionary<ulong, UserProfile>)) property.SetValue(Context.Server, new Dictionary<ulong, UserProfile>());
             }
-            return ReplyAsync("Guild config has been recreated.", document: DocumentType.Server);
+            await ReplyAsync("Guild config has been recreated.", document: DocumentType.Server);
         }
 
         [Command("selfrolelist")]
