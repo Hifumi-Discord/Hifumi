@@ -67,6 +67,7 @@ namespace Hifumi.Helpers
                 {
                     old = profile.ChatXP;
                     profile.ChatXP += Random.Next(10, 21);
+                    profile.LastMessage = MethodHelper.EasternTime;
                     newer = profile.ChatXP;
                 }
             }
