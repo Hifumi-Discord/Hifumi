@@ -75,7 +75,7 @@ namespace Hifumi.Modules
         {
             user = user ?? Context.User as SocketGuildUser;
             var profile = Context.GuildHelper.GetProfile(Context.Guild.Id, user.Id);
-            var embed = GetEmbed(Paint.Aqua)
+            var embed = GetEmbed(Paint.Temporary)
                 .WithAuthor($"{user.Username} server rank", user.GetAvatarUrl())
                 .WithThumbnailUrl(user.Guild.IconUrl)
                 .AddField("Rank", $"{IntHelper.GetGuildRank(Context, user.Id)} / {Context.Server.Profiles.Count}", true)
@@ -90,7 +90,7 @@ namespace Hifumi.Modules
         public Task Top()
         {
             if (!Context.Server.Profiles.Any() || !Context.Server.ChatXP.IsEnabled) return ReplyAsync($"Leaderboard for {Context.Guild} is empty.");
-            var embed = GetEmbed(Paint.Aqua)
+            var embed = GetEmbed(Paint.Temporary)
                 .WithTitle($"Leaderboard for {Context.Guild}");
 
             var ordered = Context.Server.Profiles.OrderByDescending(x => x.Value.ChatXP).Where(y => y.Value.ChatXP != 0).Take(10).ToList();

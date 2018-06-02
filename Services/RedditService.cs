@@ -63,7 +63,7 @@ namespace Hifumi.Services
                     string description = subData.Selftext.Length > 500 ? $"{subData.Selftext.Substring(0, 400)} ..." : subData.Selftext;
                     string title = subData.Title.Length > 40 ? $"{subData.Title.Substring(0, 35)} ..." : subData.Title;
                     string image = await GetImgurLinkAsync(subData.Url).ConfigureAwait(false);
-                    var embed = GetEmbed(Paint.Aqua)
+                    var embed = GetEmbed(Paint.Temporary)
                         .WithAuthor($"New Post in **r/{subData.Subreddit} by **{subData.Author}**", "https://png.icons8.com/dusk/100/000000/reddit.png", subData.Url)
                         .WithTitle(title)
                         .WithDescription(description ?? null)

@@ -24,7 +24,7 @@ namespace Hifumi.Modules
                 await ReplyAsync($"Couldn't find anything for {search}.");
                 return;
             }
-            var embed = GetEmbed(Paint.Aqua)
+            var embed = GetEmbed(Paint.Temporary)
                 .WithAuthor($"Displaying results for {search}", "https://avatars2.githubusercontent.com/u/9141961?s=200&v=4");
             foreach (var result in convertedJson.Results.Take(5).OrderBy(x => x.Name))
                 embed.AddField(result.Name, $"Kind: {result.Kind} | Type: {result.Type}\n[{result.Snippet}]({result.URL})");

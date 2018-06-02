@@ -55,7 +55,7 @@ namespace Hifumi.Helpers
             reason = reason ?? $"*Responsible moderator, please type `{context.Config.Prefix}reason {context.Server.Mod.Cases.Count + 1} <reason>`*";
             var modChannel = await context.Guild.GetTextChannelAsync(context.Server.Mod.TextChannel);
             if (modChannel == null) return;
-            var embed = GetEmbed(Paint.Aqua)
+            var embed = GetEmbed(CasePaint(caseType))
                 .WithAuthor($"Case #{context.Server.Mod.Cases.Count + 1} | {caseType} | {user.Username}#{user.Discriminator}", user.GetAvatarUrl())
                 .AddField("User", user.Mention, true)
                 .AddField("Moderator", context.User.Mention, true)
@@ -82,7 +82,7 @@ namespace Hifumi.Helpers
             reason = reason ?? $"*Responsible moderator, please type `{server.Prefix}reason {server.Mod.Cases.Count + 1} <reason>`*";
             var modChannel = guild.GetTextChannel(server.Mod.TextChannel);
             if (modChannel == null) return;
-            var embed = GetEmbed(Paint.Aqua)
+            var embed = GetEmbed(CasePaint(caseType))
                 .WithAuthor($"Case #{server.Mod.Cases.Count + 1} | {caseType} | {user.Username}#{user.Discriminator}", user.GetAvatarUrl())
                 .AddField("User", user.Mention, true)
                 .AddField("Moderator", mod.Mention, true)
@@ -145,6 +145,17 @@ namespace Hifumi.Helpers
             if (check) return (false, $"`{objectName}` already exists in {collectionName}.");
             if (collection.Count == collection.Capacity) return (false, $"Reached max number of entries.");
             return (true, $"`{objectName}` has been added to {collectionName}.");
+        }
+
+        public Paint CasePaint(CaseType type)
+        {
+            switch (type)
+            {
+                case CaseType.Warning:
+                    return Paint.Yellow;
+                default:
+                    return Paint.Temporary;
+            }
         }
     }
 }

@@ -39,7 +39,7 @@ namespace Hifumi.Modules
         public async Task FoxAsync()
         {
             var fox = JToken.Parse(await Context.HttpClient.GetStringAsync("https://randomfox.ca/floof/"));
-            var embed = GetEmbed(Paint.Aqua)
+            var embed = GetEmbed(Paint.Temporary)
                 .WithAuthor("Here's a random fox!", url: fox["link"].ToString())
                 .WithImageUrl(fox["image"].ToString())
                 .WithFooter("Powered by: randomfox.ca")
@@ -69,7 +69,7 @@ namespace Hifumi.Modules
                     url += "neko";
                     break;
             }
-            var embed = GetEmbed(Paint.Aqua)
+            var embed = GetEmbed(Paint.Temporary)
                 .WithImageUrl(JToken.Parse(await Context.HttpClient.GetStringAsync(url).ConfigureAwait(false))["url"].ToString())
                 .WithFooter("Powered by: nekos.life")
                 .Build();

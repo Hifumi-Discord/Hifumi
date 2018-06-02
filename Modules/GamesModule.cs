@@ -108,7 +108,7 @@ namespace Hifumi.Modules
             else if (info.ProfileState == 5) state = "Looking to trade";
             else state = "Looking to play";
 
-            var embed = GetEmbed(Paint.Aqua)
+            var embed = GetEmbed(Paint.Temporary)
                 .WithAuthor(info.RealName ?? "Steam", "https://png.icons8.com/material/256/e5e5e5/steam.png", info.ProfileLink)
                 .WithThumbnailUrl(info.AvatarFullUrl)
                 .AddField("Display Name", $"{info.Name}", true)
@@ -164,7 +164,7 @@ namespace Hifumi.Modules
                 return;
             }
             var data = await Context.ConfigHandler.HGame.Wows.GetPlayerDataAsync(region, new[] { user.PlayerList[0].AccountId.ToString() });
-            var embed = GetEmbed(Paint.Aqua)
+            var embed = GetEmbed(Paint.Temporary)
                 .WithTitle($"{user.PlayerList[0].Nickname}'s Profile")
                 .AddField("Wins", data[0].Statistics.PVP.Wins, true)
                 .AddField("Losses", data[0].Statistics.PVP.Losses, true)

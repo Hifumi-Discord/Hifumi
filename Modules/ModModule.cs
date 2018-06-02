@@ -193,7 +193,7 @@ namespace Hifumi.Modules
                 var oldEmbed = message.Embeds.FirstOrDefault();
                 var user = oldEmbed.Fields.FirstOrDefault(x => x.Name == "User").Value;
                 var mod = oldEmbed.Fields.FirstOrDefault(x => x.Name == "Moderator").Value;
-                var newEmbed = Embeds.GetEmbed(Embeds.Paint.Aqua)
+                var newEmbed = Embeds.GetEmbed(Embeds.Paint.Temporary)
                     .WithAuthor(oldEmbed.Author.Value.ToString())
                     .AddField("User", user, true)
                     .AddField("Moderator", mod, true)

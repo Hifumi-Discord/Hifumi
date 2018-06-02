@@ -23,7 +23,7 @@ namespace Hifumi.Modules
             else
                 description = $"{Context.User.Mention} cuddles with {user.Mention} {GetEmote(EmoteType.Love)}";
 
-            var embed = GetEmbed(Paint.Aqua)
+            var embed = GetEmbed(Paint.Temporary)
                 .WithDescription(description)
                 .WithImageUrl(JToken.Parse(await Context.HttpClient.GetStringAsync("https://nekos.life/api/v2/img/cuddle").ConfigureAwait(false))["url"].ToString())
                 .WithFooter("Powered by: nekos.life")
@@ -40,7 +40,7 @@ namespace Hifumi.Modules
             else
                 description = $"{Context.User.Mention} gives food to {user.Mention} {GetEmote(EmoteType.Love)}";
 
-            var embed = GetEmbed(Paint.Aqua)
+            var embed = GetEmbed(Paint.Temporary)
                 .WithDescription(description)
                 .WithImageUrl(JToken.Parse(await Context.HttpClient.GetStringAsync("https://nekos.life/api/v2/img/feed").ConfigureAwait(false))["url"].ToString())
                 .WithFooter("Powered by: nekos.life")
@@ -57,7 +57,7 @@ namespace Hifumi.Modules
             else
                 description = $"{Context.User.Mention} hugs {user.Mention} {GetEmote(EmoteType.Love)}";
 
-            var embed = GetEmbed(Paint.Aqua)
+            var embed = GetEmbed(Paint.Temporary)
                 .WithDescription(description)
                 .WithImageUrl(JToken.Parse(await Context.HttpClient.GetStringAsync("https://nekos.life/api/v2/img/hug").ConfigureAwait(false))["url"].ToString())
                 .WithFooter("Powered by: nekos.life")
@@ -74,7 +74,7 @@ namespace Hifumi.Modules
             else
                 description = $"{Context.User.Mention} kisses {user.Mention} {GetEmote(EmoteType.Love)}";
 
-            var embed = GetEmbed(Paint.Aqua)
+            var embed = GetEmbed(Paint.Temporary)
                 .WithDescription(description)
                 .WithImageUrl(JToken.Parse(await Context.HttpClient.GetStringAsync("https://nekos.life/api/v2/img/kiss").ConfigureAwait(false))["url"].ToString())
                 .WithFooter("Powered by: nekos.life")
@@ -91,7 +91,7 @@ namespace Hifumi.Modules
             else
                 description = $"{Context.User.Mention} pats {user.Mention} {GetEmote(EmoteType.Love)}";
 
-            var embed = GetEmbed(Paint.Aqua)
+            var embed = GetEmbed(Paint.Temporary)
                 .WithDescription(description)
                 .WithImageUrl(JToken.Parse(await Context.HttpClient.GetStringAsync("https://nekos.life/api/v2/img/pat").ConfigureAwait(false))["url"].ToString())
                 .WithFooter("Powered by: nekos.life")
@@ -108,7 +108,7 @@ namespace Hifumi.Modules
             else
                 description = $"{Context.User.Mention} pokes {user.Mention}";
 
-            var embed = GetEmbed(Paint.Aqua)
+            var embed = GetEmbed(Paint.Temporary)
                 .WithDescription(description)
                 .WithImageUrl(JToken.Parse(await Context.HttpClient.GetStringAsync("https://nekos.life/api/v2/img/poke").ConfigureAwait(false))["url"].ToString())
                 .WithFooter("Powered by: nekos.life")
@@ -125,7 +125,7 @@ namespace Hifumi.Modules
             else
                 description = $"{Context.User.Mention} is hitting {user.Mention} {GetEmote(EmoteType.Worried)}";
 
-            var embed = GetEmbed(Paint.Aqua)
+            var embed = GetEmbed(Paint.Temporary)
                 .WithDescription(description)
                 .WithImageUrl(JToken.Parse(await Context.HttpClient.GetStringAsync("https://nekos.life/api/v2/img/slap").ConfigureAwait(false))["url"].ToString())
                 .WithFooter("Powered by: nekos.life")
@@ -142,7 +142,7 @@ namespace Hifumi.Modules
             else
                 description = $"{Context.User.Mention} tickles {user.Mention} {GetEmote(EmoteType.Happy)}";
 
-            var embed = GetEmbed(Paint.Aqua)
+            var embed = GetEmbed(Paint.Temporary)
                 .WithDescription(description)
                 .WithImageUrl(JToken.Parse(await Context.HttpClient.GetStringAsync("https://nekos.life/api/v2/img/tickle").ConfigureAwait(false))["url"].ToString())
                 .WithFooter("Powered by: nekos.life")

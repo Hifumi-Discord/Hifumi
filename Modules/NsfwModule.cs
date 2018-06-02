@@ -48,7 +48,7 @@ namespace Hifumi.Modules
                     url += "ero";
                     break;
             }
-            var embed = GetEmbed(Paint.Aqua)
+            var embed = GetEmbed(Paint.Temporary)
                 .WithImageUrl(JToken.Parse(await Context.HttpClient.GetStringAsync(url).ConfigureAwait(false))["url"].ToString())
                 .WithFooter("Powered by: nekos.life")
                 .Build();
@@ -154,7 +154,7 @@ namespace Hifumi.Modules
                     url += "lewd";
                     break;
             }
-            var embed = GetEmbed(Paint.Aqua)
+            var embed = GetEmbed(Paint.Temporary)
                 .WithImageUrl(JToken.Parse(await Context.HttpClient.GetStringAsync(url).ConfigureAwait(false))["url"].ToString())
                 .WithFooter("Powered by: nekos.life")
                 .Build();

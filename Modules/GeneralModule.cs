@@ -37,7 +37,7 @@ namespace Hifumi.Modules
         [Command("ping"), Summary("Check network latency.")]
         public async Task PingAsync()
         {
-            var embed = GetEmbed(Paint.Aqua)
+            var embed = GetEmbed(Paint.Temporary)
                 .WithTitle("Hifumi's Latency Information")
                 .AddField("Gateway", $"{(Context.Client as DiscordSocketClient).Latency} ms", true)
                 .AddField("Network", $"{(await new Ping().SendPingAsync("185.199.108.153")).RoundtripTime} ms", true)
@@ -58,7 +58,7 @@ namespace Hifumi.Modules
                 return;
             }
             var channel = (Context.Client as DiscordSocketClient).GetChannel(Context.Config.ReportChannel) as SocketTextChannel;
-            var embed = GetEmbed(Paint.Aqua)
+            var embed = GetEmbed(Paint.Temporary)
                 .WithAuthor($"Feedback from {Context.User}", Context.User.GetAvatarUrl())
                 .WithDescription($"**Feedback:**\n{response.Content}")
                 .WithFooter($"{Context.Guild} | {Context.Guild.Id}")

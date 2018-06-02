@@ -165,7 +165,7 @@ namespace Hifumi.Modules
             var getMessage = old < 0 ? Context.Server.DeletedMessages.LastOrDefault() : Context.Server.DeletedMessages[old];
             var user = StringHelper.CheckUser(Context.Client, getMessage.AuthorId);
             var getUser = (Context.Client as DiscordSocketClient).GetUser(getMessage.AuthorId);
-            var embed = GetEmbed(Paint.Aqua)
+            var embed = GetEmbed(Paint.Temporary)
                 .WithAuthor($"{user} - {getMessage.DateTime}", getUser != null ? getUser.GetAvatarUrl() : Context.Client.CurrentUser.GetAvatarUrl())
                 .WithDescription(getMessage.Content)
                 .WithFooter($"Channel: {StringHelper.CheckChannel(Context.Guild as SocketGuild, getMessage.ChannelId)} | Message Id: {getMessage.MessageId}")
@@ -181,7 +181,7 @@ namespace Hifumi.Modules
             var getMessage = recent < 0 ? Context.Server.DeletedMessages.Where(x => x.AuthorId == user.Id).LastOrDefault()
                 : Context.Server.DeletedMessages.Where(x => x.AuthorId == user.Id).ToList()[recent];
             var getUser = (Context.Client as DiscordSocketClient).GetUser(getMessage.AuthorId);
-            var embed = GetEmbed(Paint.Aqua)
+            var embed = GetEmbed(Paint.Temporary)
                 .WithAuthor($"{user} - {getMessage.DateTime}", getUser != null ? getUser.GetAvatarUrl() : Context.Client.CurrentUser.GetAvatarUrl())
                 .WithDescription(getMessage.Content)
                 .WithFooter($"Channel: {StringHelper.CheckChannel(Context.Guild as SocketGuild, getMessage.ChannelId)} | Message Id: {getMessage.MessageId}")
@@ -307,7 +307,7 @@ namespace Hifumi.Modules
             string antiProfanity = Context.Server.Mod.AntiProfanity ? "Enabled." : "Disabled.";
             string messageLog = Context.Server.Mod.LogDeletedMessages ? "Enabled." : "Disabled.";
 
-            var embed = GetEmbed(Paint.Aqua)
+            var embed = GetEmbed(Paint.Temporary)
                 .WithAuthor($"{Context.Guild.Name} Settings", Context.Guild.IconUrl)
                 .AddField("General Information", "```ebnf\n" +
                     $"Prefix                : {Context.Server.Prefix}\n" +

@@ -23,7 +23,7 @@ namespace Hifumi.Modules
         [Command("help")]
         public Task Help()
         {
-            var Embed = GetEmbed(Paint.Aqua)
+            var Embed = GetEmbed(Paint.Temporary)
                 .WithAuthor("List of all commands", Context.Client.CurrentUser.GetAvatarUrl())
                 .WithFooter($"For More Information On A Command's Usage: {Context.Config.Prefix}info <command>", Emotes.Hifumi.Url);
             foreach (var commands in CommandService.Commands.Where(x => x.Module.Name != "Owner Commands").GroupBy(x => x.Module.Name).OrderBy(y => y.Key))
