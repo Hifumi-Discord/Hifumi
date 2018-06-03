@@ -21,23 +21,23 @@ namespace Hifumi.Helpers
                 userImage.Mutate(x => x.Grayscale());
                 grave.Mutate(x =>
                 {
-                    var font = new FontCollection().Install("./resources/grave/font.ttf");
+                    var font = new FontCollection().Install("../resources/grave/font.ttf");
                     x.DrawImage(userImage, 1, new Size(170, 170), new Point(150, 180));
                     x.DrawText($"{user.JoinedAt.Value.Date.Year} - {DateTime.Now.Year}", font.CreateFont(25), Rgba32.Black, new PointF(180, 350));
                     x.DrawText(respects, font.CreateFont(25), Rgba32.Black, new PointF(xLoc, 380));
                 });
-                grave.Save("./resources/grave/user.png");
+                grave.Save("../resources/grave/user.png");
             }
-            return "./resources/grave/user.png";
+            return "../resources/grave/user.png";
         }
 
         public static string WowsImage(HGame.Wows.Models.PlayerData player)
         {
-            using (var background = SixLabors.ImageSharp.Image.Load("./resources/wows/base.png"))
+            using (var background = SixLabors.ImageSharp.Image.Load("../resources/wows/base.png"))
             {
                 // TODO: image editing
             }
-            return "./resources/wows/user.png";
+            return "../resources/wows/user.png";
         }
     }
 }

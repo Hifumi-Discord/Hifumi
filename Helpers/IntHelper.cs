@@ -14,7 +14,7 @@ namespace Hifumi.Helpers
         {
             var profileList = context.Server.Profiles.OrderByDescending(x => x.Value.ChatXP).ToList();
             var profile = profileList.FirstOrDefault(x => x.Key == userId);
-            return profileList.IndexOf(profile);
+            return profileList.IndexOf(profile) + 1;
         }
     }
 }

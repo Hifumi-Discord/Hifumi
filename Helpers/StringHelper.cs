@@ -19,9 +19,9 @@ namespace Hifumi.Helpers
         {
             get
             {
-                if (!Directory.Exists($"{Path.Combine(Directory.GetCurrentDirectory(), "cache")}"))
-                    Directory.CreateDirectory($"{Path.Combine(Directory.GetCurrentDirectory(), "cache")}");
-                return $"{Path.Combine(Directory.GetCurrentDirectory(), "cache")}";
+                if (!Directory.Exists("../cache/"))
+                    Directory.CreateDirectory("../cache/");
+                return "../cache/";
             }
         }
         public static string Normal = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#$%&()*+,-./:;<=>?@[\\]^_`{|}~ ";
