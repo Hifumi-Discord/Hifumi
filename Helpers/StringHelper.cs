@@ -75,31 +75,34 @@ namespace Hifumi.Helpers
             catch { return null; }
         }
 
-        public static async Task<string> HentaiAsync(HttpClient httpClient, Random random, NsfwType nsfwType, List<string> tags)
+        public static async Task<string> HentaiAsync(HttpClient httpClient, Random random, NsfwType nsfwType, string tagString)
         {
             string url = null;
             string result = null;
             MatchCollection matches = null;
-            tags = !tags.Any() ? new[] { "boobs", "tits", "ass", "sexy", "neko" }.ToList() : tags;
+            StringBuilder sb = new StringBuilder(tagString);
+            sb.Replace(", ", "+");
+            sb.Replace(" ", "_");
             switch (nsfwType)
             {
+                // TODO: check apis
                 case NsfwType.Danbooru:
-                    url = $"http://danbooru.donmai.us/posts?page={random.Next(0, 15)}{string.Join("+", tags.Select(x => x.Replace(" ", "_")))}";
+                    url = $"http://danbooru.donmai.us/posts?page={random.Next(0, 15)}{sb.ToString()}";
                     break;
                 case NsfwType.Gelbooru:
-                    url = $"http://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=100&tags={string.Join("+", tags.Select(x => x.Replace(" ", "_")))}";
+                    url = $"http://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=100&tags={sb.ToString()}";
                     break;
                 case NsfwType.Rule34:
-                    url = $"http://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={string.Join("+", tags.Select(x => x.Replace(" ", "_")))}";
+                    url = $"http://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={sb.ToString()}";
                     break;
                 case NsfwType.Cureninja:
-                    url = $"https://cure.ninja/booru/api/json?f=a&o=r&s=1&q={string.Join("+", tags.Select(x => x.Replace(" ", "_")))}";
+                    url = $"https://cure.ninja/booru/api/json?f=a&o=r&s=1&q={sb.ToString()}";
                     break;
                 case NsfwType.Konachan:
-                    url = $"http://konachan.com/post?page={random.Next(0, 5)}&tags={string.Join("+", tags.Select(x => x.Replace(" ", "_")))}";
+                    url = $"http://konachan.com/post?page={random.Next(0, 5)}&tags={sb.ToString()}";
                     break;
                 case NsfwType.Yandere:
-                    url = $"https://yande.re/post.xml?limit=25&page={random.Next(0, 15)}&tags={string.Join("+", tags.Select(x => x.Replace(" ", "_")))}";
+                    url = $"https://yande.re/post.xml?limit=25&page={random.Next(0, 15)}&tags={sb.ToString()}";
                     break;
             }
             var get = await httpClient.GetStringAsync(url).ConfigureAwait(false);

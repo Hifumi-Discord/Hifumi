@@ -15,10 +15,10 @@ namespace Hifumi.Modules
     public class NsfwModule : Base
     {
         [Command("cureninja"), Summary("Searches Cureninja for tags.")]
-        public async Task CureninjaAsync(params string[] tags) => await ReplyAsync(await StringHelper.HentaiAsync(Context.HttpClient, Context.Random, NsfwType.Cureninja, tags.ToList()));
+        public async Task CureninjaAsync([Remainder] string tags) => await ReplyAsync(await StringHelper.HentaiAsync(Context.HttpClient, Context.Random, NsfwType.Cureninja, tags));
 
         [Command("danbooru"), Summary("Searches Danbooru for tags.")]
-        public async Task DanbooruAsync(params string[] tags) => await ReplyAsync(await StringHelper.HentaiAsync(Context.HttpClient, Context.Random, NsfwType.Danbooru, tags.ToList()));
+        public async Task DanbooruAsync([Remainder] string tags) => await ReplyAsync(await StringHelper.HentaiAsync(Context.HttpClient, Context.Random, NsfwType.Danbooru, tags));
 
         [Command("ero"), Summary("More softcore than lewd.")]
         public async Task EroAsync(string option = null)
@@ -56,10 +56,10 @@ namespace Hifumi.Modules
         }
 
         [Command("gelbooru"), Summary("Searches Gelbooru for tags.")]
-        public async Task GelbooruAsync(params string[] tags) => await ReplyAsync(await StringHelper.HentaiAsync(Context.HttpClient, Context.Random, NsfwType.Gelbooru, tags.ToList()));
+        public async Task GelbooruAsync([Remainder] string tags) => await ReplyAsync(await StringHelper.HentaiAsync(Context.HttpClient, Context.Random, NsfwType.Gelbooru, tags));
 
         [Command("konachan"), Summary("Searches Konachan for tags.")]
-        public async Task KonaChanAsync(params string[] tags) => await ReplyAsync(await StringHelper.HentaiAsync(Context.HttpClient, Context.Random, NsfwType.Konachan, tags.ToList()));
+        public async Task KonaChanAsync([Remainder] string tags) => await ReplyAsync(await StringHelper.HentaiAsync(Context.HttpClient, Context.Random, NsfwType.Konachan, tags));
 
 
         [Command("lewd"), Summary("Oh my, how lewd!")]
@@ -162,9 +162,9 @@ namespace Hifumi.Modules
         }
 
         [Command("rule34"), Summary("Searches Rule34 for tags.")]
-        public async Task Rule34Async(params string[] tags) => await ReplyAsync(await StringHelper.HentaiAsync(Context.HttpClient, Context.Random, NsfwType.Rule34, tags.ToList()));
+        public async Task Rule34Async([Remainder] string tags) => await ReplyAsync(await StringHelper.HentaiAsync(Context.HttpClient, Context.Random, NsfwType.Rule34, tags));
 
         [Command("yandere"), Summary("Searches Yandere for tags.")]
-        public async Task YandereAsync(params string[] tags) => await ReplyAsync(await StringHelper.HentaiAsync(Context.HttpClient, Context.Random, NsfwType.Yandere, tags.ToList()));
+        public async Task YandereAsync([Remainder] string tags) => await ReplyAsync(await StringHelper.HentaiAsync(Context.HttpClient, Context.Random, NsfwType.Yandere, tags));
     }
 }
