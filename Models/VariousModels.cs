@@ -106,4 +106,11 @@ namespace Hifumi.Models
         Ja,
         Pt
     }
+
+    public class AFKWrapper
+    {
+        public string Message { get; set; }
+        public string ImageURL { get; set; }
+        public DateTimeOffset Timestamp { get; set; }
+    }
 }

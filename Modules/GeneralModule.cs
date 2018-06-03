@@ -20,17 +20,21 @@ namespace Hifumi.Modules
     public class GeneralModule : Base
     {
         [Command("afk"), Summary("Set yourself as afk.")]
-        public Task Afk([Remainder] string message = "AFK.")
+        public async Task Afk([Remainder] string message = "AFK.")
         {
             if (Context.Server.AFK.ContainsKey(Context.User.Id))
             {
                 Context.Server.AFK.Remove(Context.User.Id);
-                return ReplyAsync("You are no longer afk.", document: DocumentType.Server);
+                await ReplyAsync("You are no longer afk.", document: DocumentType.Server);
             }
             else
             {
-                Context.Server.AFK.Add(Context.User.Id, message);
-                return ReplyAsync($"You are now AFK. If someone mentions you, the following will be sent: {message}", document: DocumentType.Server);
+                Context.Server.AFK.Add(Context.User.Id, new AFKWrapper{
+                    Message = message,
+                    ImageURL = Context.Message.Attachments.Any() ? Context.Message.Attachments.FirstOrDefault().Url : null,
+                    Timestamp = DateTimeOffset.UtcNow
+                });
+                await ReplyAsync($"You are now AFK. If someone mentions you, the following will be sent: {message}", document: DocumentType.Server);
             }
         }
 
