@@ -41,5 +41,12 @@ namespace Hifumi.Handlers
             await Client.LoginAsync(TokenType.Bot, ConfigHandler.Config.Token).ConfigureAwait(false);
             await Client.StartAsync().ConfigureAwait(false);
         }
+
+        public async void ShutdownAsync(object sender, System.ConsoleCancelEventArgs e)
+        {
+            await Client.StopAsync();
+            await Client.LogoutAsync();
+            Services.LogService.Write(Enums.LogSource.EVT, "Shut down request recieved", System.Drawing.Color.DarkOrange);
+        }
     }
 }

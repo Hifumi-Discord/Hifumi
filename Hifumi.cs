@@ -59,6 +59,7 @@ namespace Hifumi
             provider.GetRequiredService<RedditService>().Initialize();
 
             CacheHelper.Initialize();
+            Console.CancelKeyPress += new ConsoleCancelEventHandler(provider.GetRequiredService<MainHandler>().ShutdownAsync);
 
             await Task.Delay(-1);
         }
