@@ -15,15 +15,6 @@ namespace Hifumi.Helpers
 {
     public class StringHelper
     {
-        public static string CacheFolder
-        {
-            get
-            {
-                if (!Directory.Exists("../cache/"))
-                    Directory.CreateDirectory("../cache/");
-                return "../cache/";
-            }
-        }
         public static string Normal = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#$%&()*+,-./:;<=>?@[\\]^_`{|}~ ";
         public static string FullWidth = "０１２３４５６７８９ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯ" +
             "ＰＱＲＳＴＵＶＷＸＹＺ！＃＄％＆（）＊＋、ー。／：；〈＝〉？＠［\\］＾＿‘｛｜｝～ ";
@@ -143,10 +134,10 @@ namespace Hifumi.Helpers
         public static async Task<string> DownloadImageAsync(HttpClient httpClient, string url)
         {
             var image = await httpClient.GetByteArrayAsync(url).ConfigureAwait(false);
-            string fileName = $"Hifumi-{Guid.NewGuid().ToString("n").Substring(0, 8)}";
-            using (var userImage = File.Create($"./cache/{fileName}.png"))
+            string fileName = CacheHelper.CacheFile("hifumi", "png");
+            using (var userImage = File.Create(fileName))
                 await userImage.WriteAsync(image, 0, image.Length).ConfigureAwait(false);
-            return $"./cache/{fileName}.png";
+            return fileName;
         }
 
         public static string PinCode()

@@ -58,6 +58,8 @@ namespace Hifumi
             await provider.GetRequiredService<EventsHandler>().InitializeAsync(provider);
             provider.GetRequiredService<RedditService>().Initialize();
 
+            CacheHelper.Initialize();
+
             await Task.Delay(-1);
         }
     }

@@ -13,6 +13,7 @@ namespace Hifumi.Helpers
     {
         public static async Task<string> GraveAsync(IGuildUser user, HttpClient httpClient, bool ayana)
         {
+            string saveTo = CacheHelper.CacheFile("grave", "png");
             string respects = (ayana) ? "=f to pay respects." : "Type F to pay respects.";
             int xLoc = (ayana) ? 150 : 120;
             using (var grave = SixLabors.ImageSharp.Image.Load("./resources/grave/base.png"))
@@ -26,18 +27,19 @@ namespace Hifumi.Helpers
                     x.DrawText($"{user.JoinedAt.Value.Date.Year} - {DateTime.Now.Year}", font.CreateFont(25), Rgba32.Black, new PointF(180, 350));
                     x.DrawText(respects, font.CreateFont(25), Rgba32.Black, new PointF(xLoc, 380));
                 });
-                grave.Save("../resources/grave/user.png");
+                grave.Save(saveTo);
             }
-            return "../resources/grave/user.png";
+            return saveTo;
         }
 
         public static string WowsImage(HGame.Wows.Models.PlayerData player)
         {
+            string saveTo = CacheHelper.CacheFile("wows", "png");
             using (var background = SixLabors.ImageSharp.Image.Load("../resources/wows/base.png"))
             {
                 // TODO: image editing
             }
-            return "../resources/wows/user.png";
+            return saveTo;
         }
     }
 }
