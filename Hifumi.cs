@@ -6,6 +6,7 @@ using Hifumi.Helpers;
 using Hifumi.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Raven.Client.Documents;
+using Raven.Client.Http;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -36,7 +37,10 @@ namespace Hifumi
                 {
                     Certificate = DatabaseHandler.DatabaseConfig.Certificate,
                     Database = DatabaseHandler.DatabaseConfig.DatabaseName,
-                    Urls = DatabaseHandler.DatabaseConfig.DatabaseUrls
+                    Urls = DatabaseHandler.DatabaseConfig.DatabaseUrls,
+                    Conventions = {
+                        ReadBalanceBehavior = ReadBalanceBehavior.FastestNode
+                    }
                 }.Initialize())
                 .AddSingleton<HttpClient>()
                 .AddSingleton<LogService>()
