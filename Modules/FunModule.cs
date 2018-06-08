@@ -81,7 +81,7 @@ namespace Hifumi.Modules
         {
             if (message == null)
             {
-                await Context.Channel.SendFileAsync("./resources/owo.png");
+                await Context.Channel.SendFileAsync("../resources/owo.png");
                 return;
             }
             var data = JToken.Parse(await Context.HttpClient.GetStringAsync($"https://nekos.life/api/v2/owoify?text={Uri.EscapeDataString(message)}").ConfigureAwait(false))["owo"];

@@ -16,7 +16,7 @@ namespace Hifumi.Helpers
             string saveTo = CacheHelper.CacheFile("grave", "png");
             string respects = (ayana) ? "=f to pay respects." : "Type F to pay respects.";
             int xLoc = (ayana) ? 150 : 120;
-            using (var grave = SixLabors.ImageSharp.Image.Load("./resources/grave/base.png"))
+            using (var grave = SixLabors.ImageSharp.Image.Load("../resources/grave/base.png"))
             {
                 var userImage = SixLabors.ImageSharp.Image.Load(await StringHelper.DownloadImageAsync(httpClient, user.GetAvatarUrl(ImageFormat.Png, 256)));
                 userImage.Mutate(x => x.Grayscale());
