@@ -32,10 +32,8 @@ namespace Hifumi.Handlers
             Client.UserJoined += EventsHandler.UserJoinedAsync;
             Client.JoinedGuild += EventsHandler.JoinedGuildAsync;
             Client.LatencyUpdated += EventsHandler.LatencyUpdated;
-            Client.ReactionAdded += EventsHandler.ReactionAddedAsync;
             Client.MessageReceived += EventsHandler.HandleMessage;
             Client.MessageDeleted += EventsHandler.MessageDeletedAsync;
-            Client.ReactionRemoved += EventsHandler.ReactionRemovedAsync;
             Client.MessageReceived += EventsHandler.CommandHandlerAsync;
 
             await Client.LoginAsync(TokenType.Bot, ConfigHandler.Config.Token).ConfigureAwait(false);

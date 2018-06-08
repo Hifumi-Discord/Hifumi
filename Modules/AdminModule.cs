@@ -214,7 +214,6 @@ namespace Hifumi.Modules
                 if (property.PropertyType == typeof(ModWrapper)) property.SetValue(Context.Server, new ModWrapper());
                 if (property.PropertyType == typeof(RedditWrapper)) property.SetValue(Context.Server, new RedditWrapper());
                 if (property.PropertyType == typeof(List<TagWrapper>)) property.SetValue(Context.Server, new List<TagWrapper>());
-                if (property.PropertyType == typeof(StarboardWrapper)) property.SetValue(Context.Server, new StarboardWrapper());
                 if (property.PropertyType == typeof(Dictionary<ulong, string>)) property.SetValue(Context.Server, new Dictionary<ulong, string>());
                 if (property.PropertyType == typeof(List<MessageWrapper>)) property.SetValue(Context.Server, new List<MessageWrapper>());
                 if (property.PropertyType == typeof(Dictionary<ulong, UserProfile>)) property.SetValue(Context.Server, new Dictionary<ulong, UserProfile>());
@@ -270,10 +269,6 @@ namespace Hifumi.Modules
                     if (!channelCheck.Item1) return ReplyAsync($"{setting} value was incorrect. Try mentioning the channel?");
                     Context.Server.Reddit.TextChannel = channelCheck.Item2;
                     break;
-                case SettingType.StarboardChannel:
-                    if (!channelCheck.Item1) return ReplyAsync($"{setting} value was incorrect. Try mentioning the channel?");
-                    Context.Server.Starboard.TextChannel = channelCheck.Item2;
-                    break;
                 case SettingType.JoinRole:
                     if (!roleCheck.Item1) return ReplyAsync($"{setting} value was incorrect. Try mentioning the role?");
                     Context.Server.Mod.JoinRole = roleCheck.Item2;
@@ -315,7 +310,6 @@ namespace Hifumi.Modules
                     $"Join Channel          : {StringHelper.CheckChannel(Context.Guild as SocketGuild, Context.Server.JoinChannel)}\n" +
                     $"Leave Channel         : {StringHelper.CheckChannel(Context.Guild as SocketGuild, Context.Server.LeaveChannel)}\n" +
                     $"Reddit Channel        : {StringHelper.CheckChannel(Context.Guild as SocketGuild, Context.Server.Reddit.TextChannel)}\n" +
-                    $"Starboard Channel     : {StringHelper.CheckChannel(Context.Guild as SocketGuild, Context.Server.Starboard.TextChannel)}\n" +
                     $"Join Messages         : {Context.Server.JoinMessages.Count}\n" +
                     $"Leave Messages        : {Context.Server.LeaveMessages.Count}\n" +
                     $"AFK Users             : {Context.Server.AFK.Count}\n" +
@@ -339,7 +333,6 @@ namespace Hifumi.Modules
                     $"- Users Kicked        : {Context.Server.Mod.Cases.Where(x => x.CaseType == CaseType.Kick).Count()}\n" +
                     $"- Total Chat XP       : {Context.Server.Profiles.Sum(x => x.Value.ChatXP)}\n" +
                     $"- Total Tags          : {Context.Server.Tags.Count}\n" +
-                    $"- Stars Given         : {Context.Server.Starboard.StarboardMessages.Sum(x => x.Stars)}\n" +
                     $"- Total Credits       : {Context.Server.Profiles.Sum(x => x.Value.Credits)}\n" +
                     $"- Total Mod Cases     : {Context.Server.Mod.Cases.Count}```", false)
                     .Build();

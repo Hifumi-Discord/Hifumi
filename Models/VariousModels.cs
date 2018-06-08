@@ -12,21 +12,6 @@ namespace Hifumi.Models
         public Dictionary<ulong, int> LeveledRoles { get; set; } = new Dictionary<ulong, int>();
     }
 
-    public class StarboardWrapper
-    {
-        public ulong TextChannel { get; set; }
-        public List<StarboardMessage> StarboardMessages { get; set; } = new List<StarboardMessage>();
-    }
-
-    public class StarboardMessage
-    {
-        public int Stars { get; set; }
-        public ulong AuthorId { get; set; }
-        public ulong ChannelId { get; set; }
-        public ulong MessageId { get; set; }
-        public ulong StarboardMessageId { get; set; }
-    }
-
     public class TagWrapper
     {
         public int Uses { get; set; }
