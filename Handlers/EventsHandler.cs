@@ -109,6 +109,7 @@ namespace Hifumi.Handlers
                 : StringHelper.Replace(config.LeaveMessages[Random.Next(config.LeaveMessages.Count)], user.Guild.Name, user.Username);
             var channel = user.Guild.GetTextChannel(config.LeaveChannel);
             if (channel != null) await channel.SendMessageAsync(message).ConfigureAwait(false);
+            await ActionHelper.LogUserAction(GuildActions.UserLeave, user, config);
         }
 
         internal async Task UserJoinedAsync(SocketGuildUser user)
@@ -125,6 +126,7 @@ namespace Hifumi.Handlers
                 var muteRole = user.Guild.GetRole(config.Mod.MuteRole);
                 await user.AddRoleAsync(muteRole).ConfigureAwait(false);
             }
+            await ActionHelper.LogUserAction(GuildActions.UserJoin, user, config);
         }
 
         internal Task HandleMessage(SocketMessage message)
