@@ -35,7 +35,8 @@ namespace Hifumi.Modules
                 case AdminCollectionAction.Remove:
                     if (!Context.Server.ChatXP.XPBlockedRoles.Contains(role.Id)) return ReplyAsync($"{role} isn't blocked from gaining XP.");
                     Context.Server.ChatXP.XPBlockedRoles.Remove(role.Id);
-                    return ReplyAsync($"`{role}` has been removed from the XP-blocked roles.", document: DocumentType.Server);
+                    // TODO: translate collection name?
+                    return ReplyAsync(Translator.Collection("remove-item", role.Name, "XP-Blocked roles", Context.Server.Locale), document: DocumentType.Server);
             }
             return Task.CompletedTask;
         }
@@ -51,7 +52,7 @@ namespace Hifumi.Modules
             return ReplyAsync(message);
         }
 
-        [Command("export"), Summary("Exports your server settings as a json file.")]
+        [Command("export")]
         public async Task ExportAsync()
         {
             var owner = await (Context.Guild as SocketGuild).Owner.GetOrCreateDMChannelAsync();
@@ -141,7 +142,6 @@ namespace Hifumi.Modules
                     if (!Context.Server.ChatXP.LeveledRoles.ContainsKey(role.Id)) return ReplyAsync($"{role} isn't a leveled role.");
                     Context.Server.ChatXP.LeveledRoles[role.Id] = level;
                     return ReplyAsync($"Modified leveled role `{role}`.", document: DocumentType.Server);
-
             }
             return Task.CompletedTask;
         }

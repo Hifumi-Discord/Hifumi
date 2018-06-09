@@ -66,9 +66,18 @@ namespace Hifumi.Translation
         #endregion
 
         #region Various
-        public static string Collection(string key, Locale locale)
+        public static string Collection(string key, string item, string collectionName, Locale locale)
         {
-            return null;
+            string data;
+            try
+            {
+                data = JToken.Parse(File.ReadAllText($"{translationPath}/{locale.ToString().ToLower()}/collections.json"))[key].ToString();
+            }
+            catch
+            {
+                data = JToken.Parse(File.ReadAllText($"{translationPath}/en/collections.json"))[key].ToString();
+            }
+            return new StringBuilder(data).Replace("{item}", item).Replace("{collection}", collectionName).ToString();
         }
         #endregion
 
