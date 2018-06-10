@@ -35,6 +35,8 @@ namespace Hifumi.Handlers
             Client.MessageReceived += EventsHandler.HandleMessage;
             Client.MessageDeleted += EventsHandler.MessageDeletedAsync;
             Client.MessageReceived += EventsHandler.CommandHandlerAsync;
+            Client.ChannelCreated += EventsHandler.ChannelCreated;
+            Client.ChannelDestroyed += EventsHandler.ChannelDeleted;
 
             await Client.LoginAsync(TokenType.Bot, ConfigHandler.Config.Token).ConfigureAwait(false);
             await Client.StartAsync().ConfigureAwait(false);

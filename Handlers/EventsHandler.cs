@@ -189,5 +189,21 @@ namespace Hifumi.Handlers
             });
             GuildHandler.Save(config);
         }
+
+        internal Task ChannelCreated(SocketChannel channel)
+        {
+            var guild = (channel as SocketTextChannel).Guild;
+            var config = GuildHandler.GetGuild(guild.Id);
+            if (!config.GuildActions.ChannelCreate) return Task.CompletedTask;
+            return ActionHelper.LogChannelAction(channel as SocketGuildChannel, config, guild, GuildActions.ChannelCreated);
+        }
+
+        internal Task ChannelDeleted(SocketChannel channel)
+        {
+            var guild = (channel as SocketTextChannel).Guild;
+            var config = GuildHandler.GetGuild(guild.Id);
+            if (!config.GuildActions.ChannelCreate) return Task.CompletedTask;
+            return ActionHelper.LogChannelAction(channel as SocketGuildChannel, config, guild, GuildActions.ChannelDeleted);
+        }
     }
 }

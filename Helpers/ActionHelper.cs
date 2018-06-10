@@ -49,5 +49,28 @@ namespace Hifumi.Helpers
             channel.SendMessageAsync(string.Empty, embed: embed.Build());
             return Task.CompletedTask;
         }
+
+        public static Task LogChannelAction(SocketGuildChannel channel, GuildModel config, SocketGuild guild, GuildActions action)
+        {
+            string title = null;
+            switch (action)
+            {
+                case GuildActions.ChannelCreated:
+                    title = "CHANNEL_CREATED";
+                    break;
+                case GuildActions.ChannelDeleted:
+                    title = "CHANNEL_DELETED";
+                    break;
+            }
+
+            var embed = GetEmbed(Paint.Temporary)
+                .WithAuthor(title)
+                .AddField("Channel", channel.Name)
+                .WithCurrentTimestamp()
+                .Build();
+
+            guild.GetTextChannel(config.GuildActions.TextChannel).SendMessageAsync(string.Empty, embed: embed);
+            return Task.CompletedTask;
+        }
     }
 }
