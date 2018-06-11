@@ -12,6 +12,7 @@
         RedditChannel,
         StarboardChannel,
         LevelUpMessage,
-        Locale
+        Locale,
+        GuildActionChannel
     }
 }

@@ -289,6 +289,10 @@ namespace Hifumi.Modules
                     if (!Enum.IsDefined(typeof(Locale), l)) return ReplyAsync("Invalid locale");
                     Context.Server.Locale = l;
                     break;
+                case SettingType.GuildActionChannel:
+                    if (!channelCheck.Item1) return ReplyAsync($"{setting} value was incorrect. Try mentioning the channel?");
+                    Context.Server.GuildActions.TextChannel = channelCheck.Item2;
+                    break;
             }
             return ReplyAsync($"{setting} has been updated.", document: DocumentType.Server);
         }
@@ -307,6 +311,7 @@ namespace Hifumi.Modules
                 .AddField("General Information", "```ebnf\n" +
                     $"Prefix                : {Context.Server.Prefix}\n" +
                     $"Log Channel           : {StringHelper.CheckChannel(Context.Guild as SocketGuild, Context.Server.Mod.TextChannel)}\n" +
+                    $"Action Log Channel    : {StringHelper.CheckChannel(Context.Guild as SocketGuild, Context.Server.GuildActions.TextChannel)}\n" +
                     $"Join Channel          : {StringHelper.CheckChannel(Context.Guild as SocketGuild, Context.Server.JoinChannel)}\n" +
                     $"Leave Channel         : {StringHelper.CheckChannel(Context.Guild as SocketGuild, Context.Server.LeaveChannel)}\n" +
                     $"Reddit Channel        : {StringHelper.CheckChannel(Context.Guild as SocketGuild, Context.Server.Reddit.TextChannel)}\n" +
@@ -398,6 +403,27 @@ namespace Hifumi.Modules
                         Context.RedditService.Start(Context.Guild.Id);
                         state = "enabled";
                     }
+                    break;
+                case ToggleType.LogJoinRole:
+                    Context.Server.GuildActions.AutoRoleAdd = !Context.Server.GuildActions.AutoRoleAdd;
+                    break;
+                case ToggleType.LogChannelCreate:
+                    Context.Server.GuildActions.ChannelCreate = !Context.Server.GuildActions.ChannelCreate;
+                    break;
+                case ToggleType.LogChannelDelete:
+                    Context.Server.GuildActions.ChannelDelete = !Context.Server.GuildActions.ChannelDelete;
+                    break;
+                case ToggleType.LogSelfroleAdd:
+                    Context.Server.GuildActions.SelfroleAdd = !Context.Server.GuildActions.SelfroleAdd;
+                    break;
+                case ToggleType.LogSelfroleRemove:
+                    Context.Server.GuildActions.SelfroleRemove = !Context.Server.GuildActions.SelfroleRemove;
+                    break;
+                case ToggleType.LogUserJoin:
+                    Context.Server.GuildActions.UserJoin = !Context.Server.GuildActions.UserJoin;
+                    break;
+                case ToggleType.LogUserLeave:
+                    Context.Server.GuildActions.UserLeave = !Context.Server.GuildActions.UserLeave;
                     break;
             }
             return ReplyAsync($"{toggle} has been {state}.", document: DocumentType.Server);

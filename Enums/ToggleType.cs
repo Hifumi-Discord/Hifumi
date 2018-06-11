@@ -6,6 +6,13 @@
         AntiInvite,
         RedditFeed,
         MessageLog,
-        AntiProfanity
+        AntiProfanity,
+        LogJoinRole,
+        LogChannelCreate,
+        LogChannelDelete,
+        LogSelfroleAdd,
+        LogSelfroleRemove,
+        LogUserJoin,
+        LogUserLeave
     }
 }
