@@ -222,21 +222,23 @@ namespace Hifumi.Modules
         }
 
         [Command("selfrolelist")]
-        public Task SelfRolesAsync(AdminCollectionAction action, [Remainder] IRole role)
+        public Task SelfRolesAsync(AdminCollectionAction action, [Remainder] IRole role = null)
         {
-            if (role == Context.Guild.EveryoneRole) return ReplyAsync("Role can't be everyone role.");
-            if (role.IsManaged) return ReplyAsync("Can't assign managed roles.");
-            var check = Context.GuildHelper.ListCheck(Context.Server.SelfRoles, role.Id, role.Name, "assignable roles");
+
             switch (action)
             {
                 case AdminCollectionAction.Add:
+                    if (role == Context.Guild.EveryoneRole) return ReplyAsync("Role can't be everyone role.");
+                    if (role.IsManaged) return ReplyAsync("Can't assign managed roles.");
+                    var check = Context.GuildHelper.ListCheck(Context.Server.SelfRoles, role.Id, role.Name, "assignable roles");
                     if (!check.Item1) return ReplyAsync(check.Item2);
                     Context.Server.SelfRoles.Add(role.Id);
                     return ReplyAsync(check.Item2, document: DocumentType.Server);
                 case AdminCollectionAction.Remove:
-                    if (!Context.Server.SelfRoles.Contains(role.Id)) return ReplyAsync($"{role.Name} isn't an assignable role.");
-                    Context.Server.SelfRoles.Remove(role.Id);
-                    return ReplyAsync($"`{role.Name}` is no longer an assignable role.", document: DocumentType.Server);
+                    var nameList = new List<string>();
+                    foreach (var roleid in Context.Server.SelfRoles)
+                        nameList.Add(StringHelper.CheckRole(Context.Guild as SocketGuild, roleid));
+                    return RemoveMenu(nameList, "selfroles");
             }
             return Task.CompletedTask;
         }
@@ -458,9 +460,13 @@ namespace Hifumi.Modules
             index--;
             if (collection.Equals("join message"))
                 Context.Server.JoinMessages.RemoveAt(index);
-            else
+                await ReplyAsync("Message deleted!", document: DocumentType.Server);
+            else if (collection.Equals("leave message"))
                 Context.Server.LeaveMessages.RemoveAt(index);
-            await ReplyAsync("Message deleted!", document: DocumentType.Server);
+                await ReplyAsync("Message deleted!", document: DocumentType.Server);
+            else if (collection.Equals("selfroles"))
+                Context.Server.SelfRoles.RemoveAt(index);
+                await ReplyAsync("Role deleted!", document: DocumentType.Server);
         }
     }
 }

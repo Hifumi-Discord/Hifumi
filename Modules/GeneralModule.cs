@@ -72,7 +72,7 @@ namespace Hifumi.Modules
             await ReplyAsync($"Thank you for submitting your feedback.");
         }
 
-        [Command("selfroles"), Summary("Get or remove a self assignable role")]
+        [Command("selfroles"), Alias("selfrole"), Summary("Get or remove a self assignable role")]
         public Task SelfrolesAsync(CollectionAction action, [Remainder] IRole role = null)
         {
             if (!Context.Server.SelfRoles.Any())
