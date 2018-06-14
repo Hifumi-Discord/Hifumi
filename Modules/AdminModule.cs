@@ -408,24 +408,31 @@ namespace Hifumi.Modules
                     break;
                 case ToggleType.LogJoinRole:
                     Context.Server.GuildActions.AutoRoleAdd = !Context.Server.GuildActions.AutoRoleAdd;
+                    state = Context.Server.GuildActions.AutoRoleAdd ? "enabled" : "disabled";
                     break;
                 case ToggleType.LogChannelCreate:
                     Context.Server.GuildActions.ChannelCreate = !Context.Server.GuildActions.ChannelCreate;
+                    state = Context.Server.GuildActions.ChannelCreate ? "enabled" : "disabled";
                     break;
                 case ToggleType.LogChannelDelete:
                     Context.Server.GuildActions.ChannelDelete = !Context.Server.GuildActions.ChannelDelete;
+                    state = Context.Server.GuildActions.ChannelDelete ? "enabled" : "disabled";
                     break;
                 case ToggleType.LogSelfroleAdd:
                     Context.Server.GuildActions.SelfroleAdd = !Context.Server.GuildActions.SelfroleAdd;
+                    state = Context.Server.GuildActions.SelfroleAdd ? "enabled" : "disabled";
                     break;
                 case ToggleType.LogSelfroleRemove:
                     Context.Server.GuildActions.SelfroleRemove = !Context.Server.GuildActions.SelfroleRemove;
+                    state = Context.Server.GuildActions.SelfroleRemove ? "enabled" : "disabled";
                     break;
                 case ToggleType.LogUserJoin:
                     Context.Server.GuildActions.UserJoin = !Context.Server.GuildActions.UserJoin;
+                    state = Context.Server.GuildActions.UserJoin ? "enabled" : "disabled";
                     break;
                 case ToggleType.LogUserLeave:
                     Context.Server.GuildActions.UserLeave = !Context.Server.GuildActions.UserLeave;
+                    state = Context.Server.GuildActions.UserLeave ? "enabled" : "disabled";
                     break;
             }
             return ReplyAsync($"{toggle} has been {state}.", document: DocumentType.Server);
@@ -459,14 +466,20 @@ namespace Hifumi.Modules
             }
             index--;
             if (collection.Equals("join message"))
+            {
                 Context.Server.JoinMessages.RemoveAt(index);
                 await ReplyAsync("Message deleted!", document: DocumentType.Server);
+            }
             else if (collection.Equals("leave message"))
+            {
                 Context.Server.LeaveMessages.RemoveAt(index);
                 await ReplyAsync("Message deleted!", document: DocumentType.Server);
+            }
             else if (collection.Equals("selfroles"))
+            {
                 Context.Server.SelfRoles.RemoveAt(index);
                 await ReplyAsync("Role deleted!", document: DocumentType.Server);
+            }
         }
     }
 }
