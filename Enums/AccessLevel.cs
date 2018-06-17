@@ -3,6 +3,7 @@
     public enum AccessLevel
     {
         Moderator,
-        Administrator
+        Administrator,
+        SUPPORT
     }
 }
