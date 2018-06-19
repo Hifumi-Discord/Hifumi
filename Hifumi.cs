@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Hifumi.Handlers;
@@ -15,7 +15,8 @@ namespace Hifumi
 {
     class Hifumi
     {
-        static void Main(string[] args) => new Hifumi().InitializeAsync().GetAwaiter().GetResult();
+        static void Main(string[] args)
+            => new Hifumi().InitializeAsync().GetAwaiter().GetResult();
 
         async Task InitializeAsync()
         {
@@ -24,7 +25,9 @@ namespace Hifumi
                 {
                     MessageCacheSize = 20,
                     AlwaysDownloadUsers = true,
-                    LogLevel = LogSeverity.Error
+                    LogLevel = LogSeverity.Error,
+                    ShardId = ConfigSettings.Configuration.Shard,
+                    TotalShards = ConfigSettings.Configuration.TotalShards
                 }))
                 .AddSingleton(new CommandService(new CommandServiceConfig
                 {
@@ -35,9 +38,9 @@ namespace Hifumi
                 }))
                 .AddSingleton(new DocumentStore
                 {
-                    Certificate = DatabaseHandler.DatabaseConfig.Certificate,
-                    Database = DatabaseHandler.DatabaseConfig.DatabaseName,
-                    Urls = DatabaseHandler.DatabaseConfig.DatabaseUrls,
+                    Certificate = ConfigSettings.Configuration.Certificate,
+                    Database = ConfigSettings.Configuration.DatabaseName,
+                    Urls = ConfigSettings.Configuration.DatabaseUrls,
                     Conventions = {
                         ReadBalanceBehavior = ReadBalanceBehavior.FastestNode
                     }
@@ -49,21 +52,15 @@ namespace Hifumi
                 .AddSingleton<MainHandler>()
                 .AddSingleton<GuildHandler>()
                 .AddSingleton<ConfigHandler>()
-                .AddSingleton<RedditService>()
                 .AddSingleton<MethodHelper>()
                 .AddSingleton<EventsHandler>()
-                .AddSingleton<DatabaseHandler>()
                 .AddSingleton(new Random(Guid.NewGuid().GetHashCode()));
 
             var provider = services.BuildServiceProvider();
-            provider.GetRequiredService<LogService>().PrintApplicationInformation();
-            await provider.GetRequiredService<DatabaseHandler>().DatabaseCheck();
+            new LogService().Initialize();
+            provider.GetRequiredService<ConfigHandler>().CheckConfig();
             await provider.GetRequiredService<MainHandler>().InitializeAsync();
             await provider.GetRequiredService<EventsHandler>().InitializeAsync(provider);
-            provider.GetRequiredService<RedditService>().Initialize();
-
-            CacheHelper.Initialize();
-            Console.CancelKeyPress += new ConsoleCancelEventHandler(provider.GetRequiredService<MainHandler>().ShutdownAsync);
 
             await Task.Delay(-1);
         }

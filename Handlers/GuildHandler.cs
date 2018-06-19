@@ -1,14 +1,14 @@
-﻿using Hifumi.Enums;
 using Hifumi.Models;
 using Hifumi.Services;
-using System.Drawing;
 using Raven.Client.Documents;
+using System;
 
 namespace Hifumi.Handlers
 {
     public class GuildHandler
     {
         IDocumentStore Store { get; }
+
         public GuildHandler(IDocumentStore store) => Store = store;
 
         public GuildModel GetGuild(ulong id)
@@ -21,7 +21,7 @@ namespace Hifumi.Handlers
         {
             using (var session = Store.OpenSession())
                 session.Delete($"{id}");
-            LogService.Write(LogSource.EVT, string.IsNullOrWhiteSpace(name) ? $"Removed Server With Id: {id}" : $"Removed Config For {name}", Color.Crimson);
+            LogService.Write("GUILD", string.IsNullOrWhiteSpace(name) ? $"Removed server with id: {id}" : $"Removed config for {name}", ConsoleColor.DarkCyan);
         }
 
         public void AddGuild(ulong id, string name = null)
@@ -36,7 +36,7 @@ namespace Hifumi.Handlers
                 });
                 session.SaveChanges();
             }
-            LogService.Write(LogSource.EVT, string.IsNullOrWhiteSpace(name) ? $"Added Server With Id: {id}" : $"Created Config For {name}", Color.Orange);
+            LogService.Write("GUILD", string.IsNullOrWhiteSpace(name) ? $"Added server with id: {id}" : $"Added config for {name}", ConsoleColor.DarkCyan);
         }
 
         public void Save(GuildModel server)

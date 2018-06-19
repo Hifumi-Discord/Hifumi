@@ -1,11 +1,7 @@
-using Hifumi.Models;
-using Hifumi.Personality;
-using Hifumi.Translation.Models;
+using Hifumi.Enums;
 using Newtonsoft.Json.Linq;
 using System.IO;
-using System.Linq;
 using System.Text;
-using static Hifumi.Personality.Emotes;
 
 namespace Hifumi.Translation
 {
@@ -13,82 +9,29 @@ namespace Hifumi.Translation
     {
         static string translationPath = "../translation";
 
-        public static string GetTranslation(string key, string lang)
+        public static string GetMessage(string key, Locale locale, string user = null, string guild = null)
         {
-            string data = JToken.Parse(File.ReadAllText($"./Translation/json/{lang}.json"))[key].ToString();
-            return data;
-        }
-
-        #region Help related
-        public static CommandModel GetCommand(string command, Locale locale)
-        {
-            JToken data;
+            string message;
             try
             {
-                data = JToken.Parse(File.ReadAllText($"{translationPath}/{locale.ToString().ToLower()}/commands.json"))[command];
+                message = JToken.Parse(File.ReadAllText($"{translationPath}/{locale.ToString().ToLower()}/messages.json"))[key].ToString();
             }
             catch
             {
-                data = JToken.Parse(File.ReadAllText($"{translationPath}/en/commands.json"))[command].ToString();
+                message = JToken.Parse(File.ReadAllText($"{translationPath}/en/messages.json"))[key].ToString();
             }
-            return data.ToObject<CommandModel>();
+            return Replacements(message, user, guild);
         }
 
-        public static string GetModule(string moduleName, Locale locale)
-        {
-            string data;
-            try
-            {
-                data = JToken.Parse(File.ReadAllText($"{translationPath}/{locale.ToString().ToLower()}/commands.json"))[moduleName].ToString();
-            }
-            catch
-            {
-                data = JToken.Parse(File.ReadAllText($"{translationPath}/en/commands.json"))[moduleName].ToString();
-            }
-            return data;
-        }
-        #endregion
-
-        #region Settings
-        public static string AdminValues(string key, Locale locale)
-        {
-            JToken data;
-            try
-            {
-                data = JToken.Parse(File.ReadAllText($"{translationPath}/{locale.ToString().ToLower()}/administration.json"))[key];
-            }
-            catch
-            {
-                data = JToken.Parse(File.ReadAllText($"{translationPath}/en/administration.json"))[key];
-            }
-            return data.ToString();
-        }
-        #endregion
-
-        #region Various
-        public static string Collection(string key, string item, string collectionName, Locale locale)
-        {
-            string data;
-            try
-            {
-                data = JToken.Parse(File.ReadAllText($"{translationPath}/{locale.ToString().ToLower()}/collections.json"))[key].ToString();
-            }
-            catch
-            {
-                data = JToken.Parse(File.ReadAllText($"{translationPath}/en/collections.json"))[key].ToString();
-            }
-            return new StringBuilder(data).Replace("{item}", item).Replace("{collection}", collectionName).ToString();
-        }
-        #endregion
-
-        static string StringHelper(string message)
+        static string Replacements(string message, string user = null, string guild = null)
         {
             StringBuilder builder = new StringBuilder(message);
             #region Emotes
-            builder.Replace("{{happyemote}}", GetEmote(EmoteType.Happy));
-            builder.Replace("{{loveemote}}", GetEmote(EmoteType.Love));
-            builder.Replace("{{sademote}}", GetEmote(EmoteType.Sad));
-            builder.Replace("{{worriedemote}}", GetEmote(EmoteType.Worried));
+            // TODO: personality
+            #endregion
+            #region Discord/Hifumi Stuff
+            builder.Replace("{user}", user);
+            builder.Replace("{guild}", guild);
             #endregion
             return builder.ToString();
         }

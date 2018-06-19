@@ -1,9 +1,8 @@
-﻿using Discord;
+using Discord;
 using Discord.Commands;
 using Hifumi.Handlers;
 using Hifumi.Helpers;
 using Hifumi.Models;
-using Hifumi.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
@@ -26,7 +25,6 @@ namespace Hifumi.Addons
         public IMessageChannel Channel { get; }
         public GuildHandler GuildHandler { get; }
         public IDocumentSession Session { get; }
-        public RedditService RedditService { get; }
         public ConfigHandler ConfigHandler { get; }
         public MethodHelper MethodHelper { get; }
 
@@ -42,7 +40,6 @@ namespace Hifumi.Addons
             GuildHelper = serviceProvider.GetRequiredService<GuildHelper>();
             GuildHandler = serviceProvider.GetRequiredService<GuildHandler>();
             Config = serviceProvider.GetRequiredService<ConfigHandler>().Config;
-            RedditService = serviceProvider.GetRequiredService<RedditService>();
             ConfigHandler = serviceProvider.GetRequiredService<ConfigHandler>();
             MethodHelper = serviceProvider.GetRequiredService<MethodHelper>();
             Server = serviceProvider.GetRequiredService<GuildHandler>().GetGuild(Guild.Id);

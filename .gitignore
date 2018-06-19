@@ -1,11 +1,4 @@
-# Build folders
-[Bb]in/
-[Oo]bj/
-
-# Visual Studio Code cache folder
 .vscode/
-
-# Hifumi stuff
-DatabaseConfig.json
+bin/
 log.txt
-
+obj/

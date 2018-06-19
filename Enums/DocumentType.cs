@@ -1,4 +1,4 @@
-﻿namespace Hifumi.Enums
+namespace Hifumi.Enums
 {
     public enum DocumentType
     {

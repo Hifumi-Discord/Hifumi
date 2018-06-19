@@ -1,0 +1,9 @@
+{
+  "Shard": 0,
+  "TotalShards": 1,
+  "DatabaseName": "Hifumi",
+  "DatabaseUrls": [
+    "http://localhost:8080"
+  ],
+  "X509CertificatePath": null
+}
