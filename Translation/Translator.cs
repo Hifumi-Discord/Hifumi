@@ -9,7 +9,7 @@ namespace Hifumi.Translation
     {
         static string translationPath = "../translation";
 
-        public static string GetMessage(string key, Locale locale, string user = null, string guild = null)
+        public static string GetMessage(string key, Locale locale, string user = null, string guild = null, string command = null, string access = null)
         {
             string message;
             try
@@ -20,10 +20,10 @@ namespace Hifumi.Translation
             {
                 message = JToken.Parse(File.ReadAllText($"{translationPath}/en/messages.json"))[key].ToString();
             }
-            return Replacements(message, user, guild);
+            return Replacements(message, user, guild, command, access);
         }
 
-        static string Replacements(string message, string user = null, string guild = null)
+        static string Replacements(string message, string user = null, string guild = null, string command = null, string access = null)
         {
             StringBuilder builder = new StringBuilder(message);
             #region Emotes
@@ -32,6 +32,8 @@ namespace Hifumi.Translation
             #region Discord/Hifumi Stuff
             builder.Replace("{user}", user);
             builder.Replace("{guild}", guild);
+            builder.Replace("{command}", command);
+            builder.Replace("{access}", access);
             #endregion
             return builder.ToString();
         }
