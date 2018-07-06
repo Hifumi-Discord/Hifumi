@@ -17,39 +17,45 @@ namespace Hifumi.Services
         {
             lock (lockObject)
             {
-                Console.WriteLine();
-                string date = DateTime.Now.ToShortTimeString().Length <= 4 ?
-                    $"0{DateTime.Now.ToShortTimeString()}" : DateTime.Now.ToShortTimeString();
-                Console.ForegroundColor = ConsoleColor.Gray;
-                Console.Write($"-> {date} ");
-                Console.ForegroundColor = color;
-                Console.Write($"[{source}]");
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.Write($" {text}");
-                Console.ResetColor();
+                if (!Hifumi.Headless)
+                {
+                    Console.WriteLine();
+                    string date = DateTime.Now.ToShortTimeString().Length <= 4 ?
+                        $"0{DateTime.Now.ToShortTimeString()}" : DateTime.Now.ToShortTimeString();
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.Write($"-> {date} ");
+                    Console.ForegroundColor = color;
+                    Console.Write($"[{source}]");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write($" {text}");
+                    Console.ResetColor();
+                }
                 FileLog($"[{DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss")}] [{source}] {text}");
             }
         }
 
         public void Initialize()
         {
-            string[] header =
+            if (!Hifumi.Headless)
             {
-                @"",
-                @" ██╗  ██╗██╗███████╗██╗   ██╗███╗   ███╗██╗",
-                @" ██║  ██║██║██╔════╝██║   ██║████╗ ████║██║",
-                @" ███████║██║█████╗  ██║   ██║██╔████╔██║██║",
-                @" ██╔══██║██║██╔══╝  ██║   ██║██║╚██╔╝██║██║",
-                @" ██║  ██║██║██║     ╚██████╔╝██║ ╚═╝ ██║██║",
-                @" ╚═╝  ╚═╝╚═╝╚═╝      ╚═════╝ ╚═╝     ╚═╝╚═╝",
-                @""
-            };
+                string[] header =
+                {
+                    @"",
+                    @" ██╗  ██╗██╗███████╗██╗   ██╗███╗   ███╗██╗",
+                    @" ██║  ██║██║██╔════╝██║   ██║████╗ ████║██║",
+                    @" ███████║██║█████╗  ██║   ██║██╔████╔██║██║",
+                    @" ██╔══██║██║██╔══╝  ██║   ██║██║╚██╔╝██║██║",
+                    @" ██║  ██║██║██║     ╚██████╔╝██║ ╚═╝ ██║██║",
+                    @" ╚═╝  ╚═╝╚═╝╚═╝      ╚═════╝ ╚═╝     ╚═╝╚═╝",
+                    @""
+                };
 
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            foreach (string line in header)
-                Console.WriteLine(line);
-            Console.ResetColor();
-            Console.WriteLine("\nVersion: 2018-Beta-06-16");
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                foreach (string line in header)
+                    Console.WriteLine(line);
+                Console.ResetColor();
+                Console.WriteLine("\nVersion: 2018-Beta-06-16");
+            }
             FileLog($"\n\n=================================[ {DateTime.Now.ToString("MM/dd/yyy HH:mm:ss")} ]=================================\n\n");
         }
     }

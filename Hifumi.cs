@@ -15,8 +15,14 @@ namespace Hifumi
 {
     class Hifumi
     {
+        public static bool Headless { get; private set; }
         static void Main(string[] args)
-            => new Hifumi().InitializeAsync().GetAwaiter().GetResult();
+        {
+            if (args != null && args[0].ToLower() == "headless")
+                Headless = true;
+
+            new Hifumi().InitializeAsync().GetAwaiter().GetResult();
+        }
 
         async Task InitializeAsync()
         {
