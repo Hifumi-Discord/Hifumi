@@ -11,7 +11,7 @@ namespace Hifumi.Handlers
         DiscordSocketClient Client { get; }
         EventsHandler EventsHandler { get; }
 
-        public MainHandler(ConfigHandler configHandler, DiscordSocketClient client, EventsHandler eventsHandler, IDocumentStore store)
+        public MainHandler(ConfigHandler configHandler, DiscordSocketClient client, EventsHandler eventsHandler)
         {
             ConfigHandler = configHandler;
             Client = client;

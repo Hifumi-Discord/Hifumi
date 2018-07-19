@@ -39,10 +39,10 @@ namespace Hifumi.Addons
             HttpClient = serviceProvider.GetRequiredService<HttpClient>();
             GuildHelper = serviceProvider.GetRequiredService<GuildHelper>();
             GuildHandler = serviceProvider.GetRequiredService<GuildHandler>();
-            Config = serviceProvider.GetRequiredService<ConfigHandler>().Config;
             ConfigHandler = serviceProvider.GetRequiredService<ConfigHandler>();
+            Config = ConfigHandler.Config;
             MethodHelper = serviceProvider.GetRequiredService<MethodHelper>();
-            Server = serviceProvider.GetRequiredService<GuildHandler>().GetGuild(Guild.Id);
+            Server = GuildHandler.GetGuild(Guild.Id);
             Session = serviceProvider.GetRequiredService<IDocumentStore>().OpenSession();
         }
     }

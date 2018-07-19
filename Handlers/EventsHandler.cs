@@ -36,10 +36,10 @@ namespace Hifumi.Handlers
             Random = random;
         }
 
-        public async Task InitializeAsync(IServiceProvider serviceProvider)
+        public async Task InitializeAsync(IServiceProvider provider)
         {
-            ServiceProvider = serviceProvider;
-            await CommandService.AddModulesAsync(Assembly.GetEntryAssembly(), serviceProvider);
+            ServiceProvider = provider;
+            await CommandService.AddModulesAsync(Assembly.GetEntryAssembly(), provider);
         }
 
         internal Task Ready()
@@ -57,7 +57,7 @@ namespace Hifumi.Handlers
 
         internal Task GuildAvailable(SocketGuild guild)
         {
-            if (!ConfigHandler.Config.ServerBlacklist.Contains($"{guild.Id}"))
+            if (!ConfigHandler.Config.ServerBlacklist.Contains(guild.Id))
                 GuildHandler.AddGuild(guild.Id, guild.Name);
             else
                 guild.LeaveAsync();
@@ -89,7 +89,7 @@ namespace Hifumi.Handlers
 
         internal async Task JoinedGuildAsync(SocketGuild guild)
         {
-            if (!ConfigHandler.Config.ServerBlacklist.Contains($"{guild.Id}"))
+            if (!ConfigHandler.Config.ServerBlacklist.Contains(guild.Id))
             {
                 GuildHandler.AddGuild(guild.Id, guild.Name);
                 await GuildHelper.DefaultChannel(guild.Id).SendMessageAsync("Thank you for inviting me to your server. Guild prefix is `h!`. Type `h!help` for commands.");
@@ -103,7 +103,7 @@ namespace Hifumi.Handlers
             var config = GuildHandler.GetGuild(user.Guild.Id);
             string message = !config.LeaveMessages.Any() ? Translator.GetMessage("default-leave", config.Locale, user.Username)
                 : StringHelper.Replace(config.LeaveMessages[Random.Next(config.LeaveMessages.Count)], user.Guild.Name, user.Username);
-            var channel = user.Guild.GetTextChannel(Convert.ToUInt64(config.LeaveChannel));
+            var channel = user.Guild.GetTextChannel(config.LeaveChannel);
             if (channel != null) await channel.SendMessageAsync(message).ConfigureAwait(false);
             // TODO: logging?
         }
@@ -113,13 +113,13 @@ namespace Hifumi.Handlers
             var config = GuildHandler.GetGuild(user.Guild.Id);
             string message = !config.JoinMessages.Any() ? Translator.GetMessage("default-join", config.Locale, user.Mention)
                 : StringHelper.Replace(config.JoinMessages[Random.Next(config.JoinMessages.Count)], user.Guild.Name, user.Mention);
-            var channel = user.Guild.GetTextChannel(Convert.ToUInt64(config.JoinChannel));
+            var channel = user.Guild.GetTextChannel(config.JoinChannel);
             if (channel != null) await channel.SendMessageAsync(message).ConfigureAwait(false);
-            var joinRole = user.Guild.GetRole(Convert.ToUInt64(config.Mod.JoinRole));
+            var joinRole = user.Guild.GetRole(config.Mod.JoinRole);
             if (joinRole != null) await user.AddRoleAsync(joinRole).ConfigureAwait(false);
-            if (config.Mod.MutedUsers.Contains($"{user.Id}"))
+            if (config.Mod.MutedUsers.Contains(user.Id))
             {
-                var muteRole = user.Guild.GetRole(Convert.ToUInt64(config.Mod.MuteRole));
+                var muteRole = user.Guild.GetRole(config.Mod.MuteRole);
                 await user.AddRoleAsync(muteRole).ConfigureAwait(false);
             }
             // TODO: logging?
@@ -130,8 +130,8 @@ namespace Hifumi.Handlers
             var guild = (message.Channel as SocketGuildChannel).Guild;
             var config = GuildHandler.GetGuild(guild.Id);
             if (!(message is SocketUserMessage userMessage) || !(message.Author is SocketGuildUser user)) return Task.CompletedTask;
-            if (userMessage.Source != MessageSource.User || userMessage.Author.IsBot || ConfigHandler.Config.UserBlacklist.Contains($"{user.Id}") ||
-                ConfigHandler.Config.ServerBlacklist.Contains($"{guild.Id}") || GuildHelper.GetProfile(guild.Id, userMessage.Author.Id).IsBlacklisted) return Task.CompletedTask;
+            if (userMessage.Source != MessageSource.User || userMessage.Author.IsBot || ConfigHandler.Config.UserBlacklist.Contains(user.Id) ||
+                ConfigHandler.Config.ServerBlacklist.Contains(guild.Id) || GuildHelper.GetProfile(guild.Id, userMessage.Author.Id).IsBlacklisted) return Task.CompletedTask;
 
             _ = EventHelper.XPHandler(userMessage, config);
             _ = EventHelper.ModeratorAsync(userMessage, config);
@@ -147,7 +147,7 @@ namespace Hifumi.Handlers
             var context = new IContext(Client, userMessage, ServiceProvider);
             if (!(userMessage.HasStringPrefix(context.Config.Prefix, ref argPos) || userMessage.HasStringPrefix(context.Server.Prefix, ref argPos))
                 || userMessage.Source != MessageSource.User || userMessage.Author.IsBot) return;
-            if (context.Config.UserBlacklist.Contains($"{context.User.Id}") || ConfigHandler.Config.ServerBlacklist.Contains($"{context.Guild.Id}") || GuildHelper.GetProfile(context.Guild.Id, context.User.Id).IsBlacklisted) return;
+            if (context.Config.UserBlacklist.Contains(context.User.Id) || ConfigHandler.Config.ServerBlacklist.Contains(context.Guild.Id) || GuildHelper.GetProfile(context.Guild.Id, context.User.Id).IsBlacklisted) return;
             var result = await CommandService.ExecuteAsync(context, argPos, ServiceProvider, MultiMatchHandling.Best);
             CommandExecuted = result.IsSuccess;
             switch (result.Error)
@@ -157,8 +157,12 @@ namespace Hifumi.Handlers
                     return;
                 case CommandError.UnmetPrecondition:
                     // TODO: DM error if we can't send a message?
-                    if (!result.ErrorReason.Contains("SendMessages")) await context.Channel.SendMessageAsync(result.ErrorReason);
-                    return;
+                    if (!result.ErrorReason.Contains("SendMessages"))
+                    {
+                        await context.Channel.SendMessageAsync(result.ErrorReason);
+                        return;
+                    }
+                    break;
             }
             _ = Task.Run(() => EventHelper.RecordCommand(CommandService, context, argPos));
         }

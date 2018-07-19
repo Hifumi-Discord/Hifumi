@@ -21,7 +21,7 @@ namespace Hifumi.Handlers
         {
             using (var session = Store.OpenSession())
                 session.Delete($"{id}");
-            LogService.Write("GUILD", string.IsNullOrWhiteSpace(name) ? $"Removed server with id: {id}" : $"Removed config for {name}", ConsoleColor.DarkCyan);
+            LogService.Write("GUILD", string.IsNullOrWhiteSpace(name) ? $"Removed server with id: {id}" : $"Removed config for: {name}", ConsoleColor.DarkCyan);
         }
 
         public void AddGuild(ulong id, string name = null)

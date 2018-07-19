@@ -30,7 +30,7 @@ namespace Hifumi.Services
                     Console.Write($" {text}");
                     Console.ResetColor();
                 }
-                FileLog($"[{DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss")}] [{source}] {text}");
+                FileLog($"[{DateTime.UtcNow.ToString("MM/dd/yyy HH:mm:ss")}] [{source}] {text}");
             }
         }
 
@@ -54,9 +54,9 @@ namespace Hifumi.Services
                 foreach (string line in header)
                     Console.WriteLine(line);
                 Console.ResetColor();
-                Console.WriteLine("\nVersion: 2018-Beta-06-16");
+                Console.WriteLine("\nVersion: 2018-Beta-07-18");
             }
-            FileLog($"\n\n=================================[ {DateTime.Now.ToString("MM/dd/yyy HH:mm:ss")} ]=================================\n\n");
+            FileLog($"\n\n=================================[ {DateTime.UtcNow.ToString("MM/dd/yyy HH:mm:ss")} ]=================================\n\n");
         }
     }
 }

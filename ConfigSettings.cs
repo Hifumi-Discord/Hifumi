@@ -11,9 +11,9 @@ namespace Hifumi.Handlers
             get
             {
                 var configPath = $"{Directory.GetCurrentDirectory()}/config.json";
-                if (File.Exists(configPath)) return JsonConvert.DeserializeObject<HifumiModel>(File.ReadAllText(configPath));
+                if (!File.Exists(configPath))
+                    File.WriteAllText(configPath, JsonConvert.SerializeObject(new HifumiModel(), Formatting.Indented));
 
-                File.WriteAllText(configPath, JsonConvert.SerializeObject(new HifumiModel(), Formatting.Indented));
                 return JsonConvert.DeserializeObject<HifumiModel>(File.ReadAllText(configPath));
             }
         }

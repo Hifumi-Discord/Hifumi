@@ -8,7 +8,7 @@ namespace Hifumi.Modules
 {
     public class TestModule : Base
     {
-        [Command("ping"), RequireNSFW]
+        [Command("ping")]
         public async Task PingAsync()
             => await ReplyAsync("pong");
     }

@@ -9,7 +9,7 @@ namespace Hifumi.Handlers
     public class ConfigHandler
     {
         IDocumentStore Store { get; }
-        
+
         public ConfigHandler(IDocumentStore store) => Store = store;
 
         public ConfigModel Config

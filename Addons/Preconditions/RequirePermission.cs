@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Hifumi.Addons.Preconditions
 {
+    // TODO: rewrite to check user's permissions
     public class RequirePermission : PreconditionAttribute
     {
         AccessLevel AccessLevel { get; }

@@ -10,10 +10,10 @@ namespace Hifumi.Helpers
         public static int GetLevel(int xp) => (int)Math.Floor(Percentage * Math.Sqrt(xp));
         public static int NextLevel(int level) => (int)Math.Pow((level + 1) / Percentage, 2);
 
-        public static int GetGuildRand(IContext context, ulong userId)
+        public static int GetGuildRank(IContext context, ulong userId)
         {
             var profileList = context.Server.Profiles.OrderByDescending(x => x.Value.ChatXP).ToList();
-            var profile = profileList.FirstOrDefault(x => x.Key == $"{userId}");
+            var profile = profileList.FirstOrDefault(x => x.Key == userId);
             return profileList.IndexOf(profile) + 1;
         }
     }

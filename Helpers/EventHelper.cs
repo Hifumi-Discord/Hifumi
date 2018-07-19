@@ -13,25 +13,23 @@ namespace Hifumi.Helpers
 {
     public class EventHelper
     {
-        Random Random { get; }
-        GuildHelper GuildHelper { get; }
-        DiscordSocketClient Client { get; }
-        ConfigHandler ConfigHandler { get; }
-        MethodHelper MethodHelper { get; }
+        Random Random {get;}
+        GuildHelper GuildHelper {get;}
+        DiscordSocketClient Client {get;}
+        ConfigHandler ConfigHandler {get;}
 
-        public EventHelper(Random random, GuildHelper guildHelper, DiscordSocketClient client, ConfigHandler configHandler, MethodHelper methodHelper)
+        public EventHelper(Random random, GuildHelper guildHelper, DiscordSocketClient client, ConfigHandler configHandler)
         {
             Client = client;
             Random = random;
             GuildHelper = guildHelper;
             ConfigHandler = configHandler;
-            MethodHelper = methodHelper;
         }
 
         internal Task XPHandler(SocketMessage message, GuildModel config)
         {
             var user = message.Author as IGuildUser;
-            var blacklistedRoles = new List<ulong>(config.ChatXP.XPBlockedRoles.Select(x => Convert.ToUInt64(x)));
+            var blacklistedRoles = new List<ulong>(config.ChatXP.XPBlockedRoles.Select(x => x));
             var hasRole = (user as IGuildUser).RoleIds.Intersect(blacklistedRoles).Any();
             if (hasRole || !config.ChatXP.IsEnabled) return Task.CompletedTask;
             var profile = GuildHelper.GetProfile(user.GuildId, user.Id);
@@ -46,7 +44,7 @@ namespace Hifumi.Helpers
                 if (DateTime.UtcNow - profile.LastMessage.Value >= TimeSpan.FromMinutes(2))
                 {
                     old = profile.ChatXP;
-                    profile.ChatXP += Random.Next(10, 21);
+                    profile.ChatXP += Random.Next(10,21);
                     profile.LastMessage = DateTime.UtcNow;
                     newer = profile.ChatXP;
                 }
@@ -76,8 +74,9 @@ namespace Hifumi.Helpers
             if (!search.IsSuccess) return;
             var command = search.Commands.FirstOrDefault().Command;
             var profile = GuildHelper.GetProfile(context.Guild.Id, context.User.Id);
-            if (!profile.Commands.ContainsKey(command.Name)) profile.Commands.Add(command.Name, DateTime.UtcNow);
-            profile.Commands[command.Name] = DateTime.UtcNow;
+            string commandName = command.Name.Split(' ')[0];
+            if (!profile.Commands.ContainsKey(commandName)) profile.Commands.Add(commandName, DateTime.UtcNow);
+            profile.Commands[commandName] = DateTime.UtcNow;
             GuildHelper.SaveProfile(context.Guild.Id, context.User.Id, profile);
         }
 
@@ -92,7 +91,7 @@ namespace Hifumi.Helpers
             var user = message.Author as SocketGuildUser;
             int oldLevel = IntHelper.GetLevel(oldXp);
             int newLevel = IntHelper.GetLevel(newXp);
-            if (!(newLevel > oldLevel)) return;
+            if (newLevel <= oldLevel) return;
             int credits = (int)Math.Sqrt(Math.PI * newXp);
             var profile = GuildHelper.GetProfile(user.Guild.Id, user.Id);
             profile.Credits += credits;
@@ -100,13 +99,13 @@ namespace Hifumi.Helpers
             if (!string.IsNullOrWhiteSpace(config.ChatXP.LevelMessage))
                 await message.Channel.SendMessageAsync(StringHelper.Replace(config.ChatXP.LevelMessage, user: user.Username, level: newLevel, credits: credits));
             if (!config.ChatXP.LeveledRoles.Any()) return;
-            var role = user.Guild.GetRole(Convert.ToUInt64(config.ChatXP.LeveledRoles.Where(x => x.Value == newLevel).FirstOrDefault().Key));
+            var role = user.Guild.GetRole(config.ChatXP.LeveledRoles.Where(x => x.Value == newLevel).FirstOrDefault().Key);
             if (user.Roles.Contains(role) || !user.Guild.Roles.Contains(role)) return;
             await user.AddRoleAsync(role);
-            foreach (var lvlrole in config.ChatXP.LeveledRoles)
-                if (lvlrole.Value < newLevel)
-                    if (user.Roles.Contains(user.Guild.GetRole(Convert.ToUInt64(lvlrole.Key))))
-                        await user.RemoveRoleAsync(user.Guild.GetRole(Convert.ToUInt64(lvlrole.Key)));
+            foreach (var lvlRole in config.ChatXP.LeveledRoles)
+                if (lvlRole.Value < newLevel)
+                    if (user.Roles.Contains(user.Guild.GetRole(lvlRole.Key)))
+                        await user.RemoveRoleAsync(user.Guild.GetRole(lvlRole.Key));
         }
     }
 }

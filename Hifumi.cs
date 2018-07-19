@@ -1,4 +1,4 @@
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Hifumi.Handlers;
@@ -16,10 +16,12 @@ namespace Hifumi
     class Hifumi
     {
         public static bool Headless { get; private set; }
+
         static void Main(string[] args)
         {
-            if (args != null && args[0].ToLower() == "headless")
+            if (args.Length != 0 && args[0].ToLower() == "headless")
                 Headless = true;
+            else Headless = false;
 
             new Hifumi().InitializeAsync().GetAwaiter().GetResult();
         }

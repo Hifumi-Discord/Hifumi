@@ -1,4 +1,3 @@
-using Discord;
 using System;
 using System.Collections.Generic;
 
@@ -8,8 +7,8 @@ namespace Hifumi.Models
     {
         public bool IsEnabled { get; set; }
         public string LevelMessage { get; set; }
-        public List<string> XPBlockedRoles { get; set; } = new List<string>(20);
-        public Dictionary<string, int> LeveledRoles { get; set; } = new Dictionary<string, int>();
+        public List<ulong> XPBlockedRoles { get; set; } = new List<ulong>(20);
+        public Dictionary<ulong, int> LeveledRoles { get; set; } = new Dictionary<ulong, int>();
     }
 
     public class TagWrapper
@@ -19,19 +18,19 @@ namespace Hifumi.Models
         public string Owner { get; set; }
         public string Content { get; set; }
         public bool AutoRespond { get; set; }
-        public DateTime CreationDate { get; set; }
+        public DateTime CreationTime { get; set; }
     }
 
     public class ModWrapper
     {
-        public string JoinRole { get; set; }
-        public string MuteRole { get; set; }
+        public ulong JoinRole { get; set; }
+        public ulong MuteRole { get; set; }
         public bool AntiInvite { get; set; }
         public int MaxWarnings { get; set; }
-        public string TextChannel { get; set; }
+        public ulong TextChannel { get; set; }
         public bool AntiProfanity { get; set; }
         public bool LogDeletedMessages { get; set; }
-        public List<string> MutedUsers { get; set; } = new List<string>();
+        public List<ulong> MutedUsers { get; set; } = new List<ulong>();
         public List<CaseWrapper> Cases { get; set; } = new List<CaseWrapper>();
     }
 
@@ -78,9 +77,9 @@ namespace Hifumi.Models
     public class MessageWrapper
     {
         public string Content { get; set; }
-        public string AuthorId { get; set; }
-        public string ChannelId { get; set; }
-        public string MessageId { get; set; }
+        public ulong AuthorId { get; set; }
+        public ulong ChannelId { get; set; }
+        public ulong MessageId { get; set; }
         public DateTime DateTime { get; set; }
     }
 
