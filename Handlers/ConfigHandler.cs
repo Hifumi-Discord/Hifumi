@@ -1,4 +1,3 @@
-using HGame;
 using Hifumi.Models;
 using Hifumi.Services;
 using Raven.Client.Documents;
@@ -49,16 +48,6 @@ namespace Hifumi.Handlers
                 session.Store(config, "Config");
                 session.SaveChanges();
             }
-        }
-
-        public HGameClient HGame
-        {
-            get => new HGameClient(new HGameConfig
-            {
-                OsuKey = Config.APIKeys["osu"],
-                SteamKey = Config.APIKeys["Steam"],
-                WowsKey = Config.APIKeys["Wows"]
-            });
         }
     }
 }

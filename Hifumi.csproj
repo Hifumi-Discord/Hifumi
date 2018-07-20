@@ -10,8 +10,4 @@
     <PackageReference Include="RavenDB.Client" Version="4.1.0-nightly-20180718-0430" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include=".\H-Game\HGame.csproj" />
-  </ItemGroup>
-
 </Project>
