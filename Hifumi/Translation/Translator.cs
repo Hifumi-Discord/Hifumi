@@ -1,5 +1,6 @@
 using Hifumi.Enums;
 using Newtonsoft.Json.Linq;
+using System;
 using System.IO;
 using System.Text;
 
@@ -20,21 +21,51 @@ namespace Hifumi.Translation
             {
                 message = JToken.Parse(File.ReadAllText($"{translationPath}/en/messages.json"))[key].ToString();
             }
-            return Replacements(message, user, guild, command, access);
+            StringBuilder sb = new StringBuilder(message);
+            sb.Replace("{user}", user);
+            sb.Replace("{guild}", guild);
+            sb.Replace("{command}", command);
+            sb.Replace("{access}", access);
+            return Replacements(sb.ToString());
         }
 
-        static string Replacements(string message, string user = null, string guild = null, string command = null, string access = null)
+        public static string GetCooldown(Locale locale, TimeSpan cooldown)
+        {
+            string message;
+            try
+            {
+                message = JToken.Parse(File.ReadAllText($"{translationPath}/{locale.ToString().ToLower()}/usererrors.json"))["cool-down"].ToString();
+            }
+            catch
+            {
+                message = JToken.Parse(File.ReadAllText($"{translationPath}/en/usererrors.json"))["cool-down"].ToString();
+            }
+            StringBuilder sb = new StringBuilder(message);
+            sb.Replace("{minute}", $"{cooldown.Minutes}");
+            sb.Replace("{second}", $"{cooldown.Seconds}");
+            return Replacements(sb.ToString());
+        }
+
+        public static string GetUserCommandError(string key, Locale locale, string command)
+        {
+            string message;
+            try
+            {
+                message = JToken.Parse(File.ReadAllText($"{translationPath}/{locale.ToString().ToLower()}/usererrors.json"))[key].ToString();
+            }
+            catch
+            {
+                message = JToken.Parse(File.ReadAllText($"{translationPath}/en/usererrors.json"))[key].ToString();
+            }
+            StringBuilder sb = new StringBuilder(message);
+            sb.Replace("{command}", command);
+            return Replacements(sb.ToString());
+        }
+
+        static string Replacements(string message)
         {
             StringBuilder builder = new StringBuilder(message);
-            #region Emotes
             // TODO: personality
-            #endregion
-            #region Discord/Hifumi Stuff
-            builder.Replace("{user}", user);
-            builder.Replace("{guild}", guild);
-            builder.Replace("{command}", command);
-            builder.Replace("{access}", access);
-            #endregion
             return builder.ToString();
         }
     }

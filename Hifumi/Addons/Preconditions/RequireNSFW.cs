@@ -11,7 +11,7 @@ namespace Hifumi.Addons.Preconditions
         {
             var channel = context.Channel as Discord.ITextChannel;
             if (channel.IsNsfw) return Task.FromResult(PreconditionResult.FromSuccess());
-            return Task.FromResult(PreconditionResult.FromError(Translator.GetMessage("require-nsfw", (context as IContext).Server.Locale, command: info.Name)));
+            return Task.FromResult(PreconditionResult.FromError(Translator.GetUserCommandError("require-nsfw", (context as IContext).Server.Locale, info.Name.Split(" ")[0])));
         }
     }
 }
