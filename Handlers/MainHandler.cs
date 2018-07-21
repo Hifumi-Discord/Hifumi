@@ -2,6 +2,8 @@ using Discord;
 using Discord.WebSocket;
 using Raven.Client.Documents;
 using System.Threading.Tasks;
+using Hifumi.Services;
+using System;
 
 namespace Hifumi.Handlers
 {
@@ -33,7 +35,12 @@ namespace Hifumi.Handlers
             Client.UserJoined += EventsHandler.UserJoinedAsync;
             Client.UserLeft += EventsHandler.UserLeftAsync;
 
-            await Client.LoginAsync(TokenType.Bot, ConfigHandler.Config.Token).ConfigureAwait(false);
+            try {
+                await Client.LoginAsync(TokenType.Bot, ConfigHandler.Config.Token).ConfigureAwait(false);
+            } catch(Discord.Net.HttpException) {
+                LogService.Write("INIT", "HTTP Exception! Invalid token?", ConsoleColor.Red);
+                Environment.Exit(1);
+            }
             await Client.StartAsync().ConfigureAwait(false);
         }
     }
