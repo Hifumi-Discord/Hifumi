@@ -54,7 +54,7 @@ namespace Hifumi.Services
                 foreach (string line in header)
                     Console.WriteLine(line);
                 Console.ResetColor();
-                Console.WriteLine("\nVersion: 2018-Beta-07-18");
+                Console.WriteLine("\nVersion: {0}", Hifumi.Version);
             }
             FileLog($"\n\n=================================[ {DateTime.UtcNow.ToString("MM/dd/yyy HH:mm:ss")} ]=================================\n\n");
         }

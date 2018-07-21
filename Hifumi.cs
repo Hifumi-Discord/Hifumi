@@ -15,6 +15,7 @@ namespace Hifumi
 {
     class Hifumi
     {
+        public const string Version = "2018-Beta-07-18";
         public static bool Headless { get; private set; }
 
         static void Main(string[] args)
